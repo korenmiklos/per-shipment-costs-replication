@@ -1,0 +1,184 @@
+"doing_business_id","country_name","iso3","bergstrand_id"
+2,"Afghanistan","AFG",1
+3,"Albania","ALB",2
+4,"Algeria","DZA",3
+7,"Angola","AGO",4
+8,"Antigua and Barbuda","ATG",5
+9,"Argentina","ARG",6
+10,"Armenia","ARM",7
+12,"Australia","AUS",9
+13,"Austria","AUT",10
+14,"Azerbaijan","AZE",11
+15,"Bahamas, the","BHS",12
+16,"Bahrain","BHR",13
+17,"Bangladesh","BGD",14
+19,"Belarus","BLR",16
+20,"Belgium","BEL",17
+21,"Belize","BLZ",19
+22,"Benin","BEN",20
+24,"Bhutan","BTN",22
+25,"Bolivia","BOL",23
+26,"Bosnia and Herzegovina","BIH",24
+27,"Botswana","BWA",25
+28,"Brazil","BRA",26
+29,"Brunei Darussalam","BRN",27
+30,"Bulgaria","BGR",28
+31,"Burkina Faso","BFA",29
+32,"Burundi","BDI",30
+33,"Cambodia","KHM",31
+34,"Cameroon","CMR",32
+35,"Canada","CAN",33
+36,"Cape Verde","CPV",34
+38,"Central African Republic","CAF",36
+39,"Chad","TCD",37
+41,"Chile","CHL",38
+42,"China","CHN",39
+46,"Colombia","COL",40
+47,"Comoros","COM",41
+48,"Congo, Dem. Rep.","ZAR",93
+49,"Congo, Rep.","COG",42
+50,"Costa Rica","CRI",43
+51,"C&#244te d'Ivoire","CIV",44
+52,"Croatia","HRV",44
+54,"Cyprus","CYP",46
+55,"Czech Republic","CZE",48
+56,"Denmark","DNK",50
+57,"Djibouti","DJI",51
+58,"Dominica","DMA",52
+59,"Dominican Republic","DOM",53
+60,"Ecuador","ECU",54
+61,"Egypt, Arab Rep.","EGY",55
+62,"El Salvador","SLV",56
+63,"Equatorial Guinea","GNQ",57
+64,"Eritrea","ERI",58
+65,"Estonia","EST",59
+66,"Ethiopia","ETH",60
+68,"Fiji","FJI",62
+69,"Finland","FIN",63
+70,"France","FRA",64
+72,"Gabon","GAB",65
+73,"Gambia, the","GMB",66
+74,"Georgia","GEO",67
+75,"Germany","DEU",68
+76,"Ghana","GHA",69
+77,"Greece","GRC",70
+79,"Grenada","GRD",72
+81,"Guatemala","GTM",73
+82,"Guinea","GIN",74
+83,"Guinea-Bissau","GNB",75
+84,"Guyana","GUY",76
+85,"Haiti","HTI",77
+86,"Honduras","HND",78
+43,"Hong Kong, China","HKG",79
+87,"Hungary","HUN",80
+88,"Iceland","ISL",81
+89,"India","IND",82
+90,"Indonesia","IDN",83
+91,"Iran, Islamic Rep.","IRN",84
+92,"Iraq","IRQ",85
+93,"Ireland","IRL",86
+95,"Israel","ISR",87
+96,"Italy","ITA",88
+97,"Jamaica","JAM",90
+98,"Japan","JPN",91
+99,"Jordan","JOR",92
+100,"Kazakhstan","KAZ",93
+101,"Kenya","KEN",94
+102,"Kiribati","KIR",95
+104,"Korea, Rep.","KOR",96
+375,"Kosovo",,
+105,"Kuwait","KWT",97
+106,"Kyrgyz Republic","KGZ",98
+107,"Lao PDR","LAO",99
+108,"Latvia","LVA",100
+109,"Lebanon","LBN",101
+110,"Lesotho","LSO",102
+111,"Liberia","LBR",103
+114,"Lithuania","LTU",105
+115,"Luxembourg","LUX",18
+116,"Macedonia, FYR","MKD",107
+117,"Madagascar","MDG",108
+118,"Malawi","MWI",109
+119,"Malaysia","MYS",110
+120,"Maldives","MDV",111
+121,"Mali","MLI",112
+123,"Marshall Islands","MHL",114
+124,"Mauritania","MRT",115
+125,"Mauritius","MUS",116
+127,"Mexico","MEX",117
+128,"Micronesia, Fed. Sts.","FSM",118
+129,"Moldova","MDA",119
+131,"Mongolia","MNG",120
+210,"Montenegro","MNE",
+132,"Morocco","MAR",121
+133,"Mozambique","MOZ",122
+135,"Namibia","NAM",124
+136,"Nepal","NPL",125
+137,"Netherlands","NLD",126
+140,"New Zealand","NZL",129
+141,"Nicaragua","NIC",130
+142,"Niger","NER",131
+143,"Nigeria","NGA",132
+145,"Norway","NOR",133
+146,"Oman","OMN",134
+147,"Pakistan","PAK",135
+148,"Palau","PLW",136
+149,"Panama","PAN",137
+150,"Papua New Guinea","PNG",138
+151,"Paraguay","PRY",139
+152,"Peru","PER",140
+153,"Philippines","PHL",141
+154,"Poland","POL",142
+155,"Portugal","PRT",143
+156,"Puerto Rico","PRI",
+157,"Qatar","QAT",144
+158,"Romania","ROM",145
+159,"Russian Federation","RUS",146
+160,"Rwanda","RWA",147
+161,"Samoa","WSM",151
+162,"Sao Tome and Principe","STP",227
+163,"Saudi Arabia","SAU",154
+164,"Senegal","SEN",155
+206,"Serbia","SRB",
+165,"Seychelles","SYC",156
+166,"Sierra Leone","SLE",157
+167,"Singapore","SGP",158
+168,"Slovak Republic","SVK",49
+169,"Slovenia","SVN",159
+170,"Solomon Islands","SLB",160
+172,"South Africa","ZAF",162
+173,"Spain","ESP",163
+174,"Sri Lanka","LKA",164
+175,"St. Kitts and Nevis","KNA",148
+176,"St. Lucia","LCA",149
+177,"St. Vincent and the Grenadines","VCT",150
+178,"Sudan","SDN",165
+179,"Suriname","SUR",166
+180,"Swaziland","SWZ",167
+181,"Sweden","SWE",168
+182,"Switzerland","CHE",169
+183,"Syrian Arab Republic","SYR",170
+45,"Taiwan, China","TWN",171
+184,"Tajikistan","TJK",172
+185,"Tanzania","TZA",173
+186,"Thailand","THA",174
+209,"Timor-Leste","TMP",175
+187,"Togo","TGO",176
+188,"Tonga","TON",177
+189,"Trinidad and Tobago","TTO",178
+190,"Tunisia","TUN",179
+191,"Turkey","TUR",180
+193,"Uganda","UGA",182
+194,"Ukraine","UKR",184
+195,"United Arab Emirates","ARE",185
+196,"United Kingdom","GBR",183
+197,"United States","USA",187
+198,"Uruguay","URY",186
+199,"Uzbekistan","UZB",188
+200,"Vanuatu","VUT",189
+201,"Venezuela, R.B.","VEN",190
+202,"Vietnam","VNM",191
+204,"West Bank and Gaza",,
+205,"Yemen, Rep.","YEM",192
+207,"Zambia","ZMB",194
+208,"Zimbabwe","ZWE",195

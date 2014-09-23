@@ -1,0 +1,619 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     Special Edition                  College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+6-user Stata network perpetual license:
+       Serial number:  501306214221
+         Licensed to:  Miklos Koren
+                       Central European University
+
+Notes:
+      1.  (-v# option or -set maxvar-) 5000 maximum variables
+      2.  Command line editing disabled
+      3.  Stata running in batch mode
+
+Note:  Your site can add messages to the introduction by editing the file
+       stata.msg in the directory where Stata is installed.
+
+. do code/05_read_spanish_trade.do 
+
+. /*
+> The programs and data files replicate the descriptive statistics and the esti
+> mation results in the paper
+> 
+>         Hornok, Cec’lia and Mikl—s Koren, forthcoming. ÒPer-Shipment Costs an
+> d the Lumpiness of International Trade.Ó Review of Economics and Statistics.
+> 
+> Please cite the above paper when using these programs.
+> 
+> For your convenience, we reproduce some of the data resources here. Although 
+> all of these are widely available macroeconomic data, please check with the d
+> ata vendors whether you have the right to use them.
+> 
+> Our software and data are provided AS IS, and we assume no liability for thei
+> r use or misuse. 
+> 
+> If you have any questions about replication, please contact Mikl—s Koren at k
+> orenm@ceu.hu.
+> */
+. 
+. *** Reads data from the shipment-level trade statistics published by the Agen
+> cia Tributaria, merges with importer-country variables and reports shipment-l
+> evel statistics. The output is data/derived/spain_export_2009_with_gravity.dt
+> a.
+. 
+. clear all
+
+. set more off
+
+. 
+. tempfile twelvemonths
+
+. 
+. clear
+
+. save `twelvemonths', replace emptyok
+(note: dataset contains 0 observations)
+(note: file /tmp/St23796.000001 not found)
+file /tmp/St23796.000001 saved
+
+. 
+. local months jan feb mar apr may jun jul aug sep oct nov dec
+
+. foreach month in `months' {
+  2.         import delimited using data/agenciatributaria/`month'.csv, clear
+  3.         
+.         keep if flow=="E" /* only export */
+  4.         keep month cn8 country_final transport_mode weight value_stat
+  5. 
+.         ren country_final iso2
+  6.         
+.         * decode mode of transport
+.         gen mode="air" if transport_mode==4
+  7.         replace mode="sea" if transport_mode==1
+  8.         replace mode="ground" if transport_mode==2 | transport_mode==3   /
+> * rail, road */
+  9.         drop if transport_mode>4   /* post, fixed mechanism, inland waterw
+> ay, self-propulsion, unknown */
+ 10.         drop transport_mode
+ 11. 
+.         gen cards=1  /* each obs is one shipment */
+ 12. 
+.         * change units of measurement
+.         replace weight=weight/1000 /* from gramm to kg */
+ 13.         replace value_stat=value_stat/100   /* from eurocents to euros */
+ 14. 
+.         * drop low value shipments below EUR 2000
+.         drop if value_stat<2000
+ 15. 
+.         * within-EU27 importers
+.         gen byte eu27 = (iso2=="AT" | iso2=="BE" | iso2=="BG" | iso2=="CZ" | 
+> iso2=="CY" | iso2=="DE" | iso2=="DK" | iso2=="EE" | iso2=="ES" | iso2=="FI" |
+>  iso2=="FR" | iso2=="GB" | iso2=="GR" | iso2=="HU" | iso2=="IE" | iso2=="IT" 
+> | iso2=="LT" | iso2=="LU" | iso2=="LV" | iso2=="NL" | iso2=="MT" | iso2=="PL"
+>  | iso2=="PT" | iso2=="RO" | iso2=="SI" | iso2=="SK" | iso2=="SE")
+ 16. 
+.         append using `twelvemonths'
+ 17.       save `twelvemonths', replace
+ 18. }
+(35 vars, 1609076 obs)
+(834379 observations deleted)
+(575221 missing values generated)
+(82164 real changes made)
+mode was str3 now str6
+(489253 real changes made)
+(3804 observations deleted)
+(770790 real changes made)
+(770891 real changes made)
+(530679 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1839837 obs)
+(958976 observations deleted)
+(647926 missing values generated)
+(97557 real changes made)
+mode was str3 now str6
+(546441 real changes made)
+(3928 observations deleted)
+(876838 real changes made)
+(876915 real changes made)
+(606630 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1941871 obs)
+(928062 observations deleted)
+(715798 missing values generated)
+(103995 real changes made)
+mode was str3 now str6
+(607712 real changes made)
+(4091 observations deleted)
+(1009635 real changes made)
+(1009709 real changes made)
+(727158 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1765463 obs)
+(847427 observations deleted)
+(664053 missing values generated)
+(102354 real changes made)
+mode was str3 now str6
+(557628 real changes made)
+(4071 observations deleted)
+(913875 real changes made)
+(913962 real changes made)
+(645276 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1710735 obs)
+(837835 observations deleted)
+(638423 missing values generated)
+(105952 real changes made)
+mode was str3 now str6
+(528254 real changes made)
+(4217 observations deleted)
+(868597 real changes made)
+(868681 real changes made)
+(601525 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1766639 obs)
+(894307 observations deleted)
+(649083 missing values generated)
+(108681 real changes made)
+mode was str3 now str6
+(536227 real changes made)
+(4175 observations deleted)
+(868068 real changes made)
+(868152 real changes made)
+(590232 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1878183 obs)
+(926233 observations deleted)
+(689431 missing values generated)
+(122309 real changes made)
+mode was str3 now str6
+(563831 real changes made)
+(3291 observations deleted)
+(948567 real changes made)
+(948655 real changes made)
+(651835 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1567359 obs)
+(764892 observations deleted)
+(517948 missing values generated)
+(87440 real changes made)
+mode was str3 now str6
+(428258 real changes made)
+(2250 observations deleted)
+(800126 real changes made)
+(800214 real changes made)
+(584388 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1909017 obs)
+(939898 observations deleted)
+(686433 missing values generated)
+(105038 real changes made)
+mode was str3 now str6
+(578472 real changes made)
+(2923 observations deleted)
+(966106 real changes made)
+(966195 real changes made)
+(689866 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1960746 obs)
+(945780 observations deleted)
+(717668 missing values generated)
+(121239 real changes made)
+mode was str3 now str6
+(593100 real changes made)
+(3329 observations deleted)
+(1011546 real changes made)
+(1011636 real changes made)
+(710922 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1878367 obs)
+(919456 observations deleted)
+(674251 missing values generated)
+(113750 real changes made)
+mode was str3 now str6
+(557169 real changes made)
+(3332 observations deleted)
+(955499 real changes made)
+(955578 real changes made)
+(665342 observations deleted)
+file /tmp/St23796.000001 saved
+(35 vars, 1754703 obs)
+(899240 observations deleted)
+(596303 missing values generated)
+(111095 real changes made)
+mode was str3 now str6
+(482029 real changes made)
+(3179 observations deleted)
+(852204 real changes made)
+(852277 real changes made)
+(587524 observations deleted)
+file /tmp/St23796.000001 saved
+
+. 
+. * convert values from euro to US$
+. 
+. import delimited using data/eurostat/ert_bil_eur_m.tsv, delimiter(tab) clear 
+(525 vars, 112 obs)
+
+. ren v1 i
+
+. reshape long v, i(i) j(j)
+(note: j = 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 2
+> 7 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 
+> 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78
+>  79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 1
+> 03 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 12
+> 2 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141
+>  142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 
+> 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 1
+> 80 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 19
+> 9 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218
+>  219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 
+> 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 2
+> 57 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 27
+> 6 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295
+>  296 297 298 299 300 301 302 303 304 305 306 307 308 309 310 311 312 313 314 
+> 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 3
+> 34 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 350 351 352 35
+> 3 354 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369 370 371 372
+>  373 374 375 376 377 378 379 380 381 382 383 384 385 386 387 388 389 390 391 
+> 392 393 394 395 396 397 398 399 400 401 402 403 404 405 406 407 408 409 410 4
+> 11 412 413 414 415 416 417 418 419 420 421 422 423 424 425 426 427 428 429 43
+> 0 431 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449
+>  450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 
+> 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 486 487 4
+> 88 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 50
+> 7 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                      112   ->   58688
+Number of variables                 525   ->       3
+j variable (524 values)                   ->   j
+xij variables:
+                         v2 v3 ... v525   ->   v
+-----------------------------------------------------------------------------
+
+. gen date = real(substr(v,1,4))*100+real(substr(v,6,2)) if i=="statinfo,unit,c
+> urrency\time"
+(58164 missing values generated)
+
+. egen edate = min(date), by(j)
+
+. drop date j
+
+. drop if i=="statinfo,unit,currency\time"
+(524 observations deleted)
+
+. destring v, force replace
+v contains nonnumeric characters; replaced as double
+(27496 missing values generated)
+
+. keep if i=="END,NAC,USD" & edate>=200901 & edate<=200912
+(58152 observations deleted)
+
+. gen month = edate-200900
+
+. drop edate
+
+. ren v usd_eur
+
+. 
+. merge 1:m month using `twelvemonths'
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                         3,251,544  (_merge==3)
+    -----------------------------------------
+
+. tab _m
+
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+            matched (3) |  3,251,544      100.00      100.00
+------------------------+-----------------------------------
+                  Total |  3,251,544      100.00
+
+. drop _m
+
+. * FIXME: check formula
+. replace value_stat = value_stat*usd_eur
+(3251544 real changes made)
+
+. drop usd_eur
+
+. save `twelvemonths', replace
+file /tmp/St23796.000001 saved
+
+. 
+. 
+. * B.E.C.
+. clear
+
+. tempfile bec_codes
+
+. import excel using data/eurostat/CN_BEC_2009.xls, sheet("Sheet1") firstrow
+
+. destring CN BEC, force replace
+CN contains nonnumeric characters; replaced as long
+(1742 missing values generated)
+BEC contains nonnumeric characters; replaced as int
+(113 missing values generated)
+
+. ren CN cn8
+
+. ren BEC bec
+
+. keep if !missing(cn8,bec)
+(1744 observations deleted)
+
+. drop if !missing(END)  /* drop CN codes ending before 2009 */
+(7680 observations deleted)
+
+. drop START END
+
+. save `bec_codes'
+file /tmp/St23796.000002 saved
+
+. 
+. use `twelvemonths'
+
+. merge m:1 cn8 using `bec_codes', keep(match)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                         3,197,624  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. drop if (bec>300 & bec<400) | bec==700 /* drop fuels and unclassified */
+(35335 observations deleted)
+
+. 
+. 
+. * label variables
+. lab var iso2 "ISO2 code of final destination country"
+
+. lab var cn8 "8-digit CN product code"
+
+. lab var mode "Transport mode (air, sea, ground)"
+
+. lab var month "Month of shipping"
+
+. lab var cards "Number of shipments"
+
+. lab var weight "Traded weight in kg"
+
+. lab var value_stat "Traded value in euro"
+
+. lab var eu27 "Importer is EU27 member"
+
+. lab var bec "BEC product code"
+
+. 
+. 
+. * same set of importers as for US
+. * importers list
+. merge m:1 iso2 using data/census/country_list, keep(match)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                         3,142,907  (_merge==3)
+    -----------------------------------------
+
+. drop _m census_code
+
+. save `twelvemonths', replace
+file /tmp/St23796.000001 saved
+
+. 
+. 
+. *******************************************
+. * Table 2: median shipment size - Spain
+. ********************************************
+. gen importer = "_r.o.w"
+
+. * selected low per-shipment cost importers
+. replace importer = "1 France" if iso2=="FR"
+importer was str6 now str8
+(402508 real changes made)
+
+. replace importer = "2 Germany" if iso2=="DE"
+importer was str8 now str9
+(206327 real changes made)
+
+. replace importer = "3 Japan" if iso2=="JP"
+(29689 real changes made)
+
+. replace importer = "4 USA" if iso2=="US"
+(117957 real changes made)
+
+. * selected high per-shipment cost importers
+. replace importer = "5 Algeria" if iso2=="DZ"
+(31297 real changes made)
+
+. replace importer = "6 China" if iso2=="CN"
+(42906 real changes made)
+
+. replace importer = "7 Russia" if iso2=="RU"
+(65827 real changes made)
+
+. replace importer = "8 South Africa" if iso2=="ZA"
+importer was str9 now str14
+(19608 real changes made)
+
+. lab var importer "Selected importers"
+
+. tabstat value_stat, statistics(median) by(importer) columns(variables)
+
+Summary statistics: p50
+  by categories of: importer (Selected importers)
+
+      importer |  value_~t
+---------------+----------
+      1 France |  14254.25
+     2 Germany |  14218.53
+       3 Japan |  9716.506
+         4 USA |  15753.47
+     5 Algeria |   15969.6
+       6 China |  19507.15
+      7 Russia |  12276.15
+8 South Africa |  11642.13
+        _r.o.w |  12398.42
+---------------+----------
+         Total |  12930.61
+--------------------------
+
+. 
+. 
+. * saving labels
+. foreach v of var * {
+  2.         local l`v' : variable label `v'
+  3.       if `"`l`v''"' == "" {
+  4.                 local l`v' "`v'"
+  5.                 }
+  6.         }
+
+. 
+. * collapse to product-mode-country-month
+. collapse (sum) cards weight value, by(cn8 bec iso2 importer mode month eu27)
+
+. 
+. * collapse to product-mode-country
+. collapse (sum) cards weight value (count) nmonth=month, by(cn8 bec iso2 impor
+> ter mode eu27)
+
+. 
+. * attach labels
+. foreach v of var * {
+  2.         label var `v' "`l`v''"
+  3.         }
+
+. label var nmonth "Number of months with shipment"
+
+. 
+. 
+. * add country variables
+. gen exporter = "ESP"
+
+. sort iso2 cn8 mode
+
+. merge m:1 exporter iso2 using data/derived/merged_importer_data
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           857
+        from master                       608  (_merge==1)
+        from using                        249  (_merge==2)
+
+    matched                           210,569  (_merge==3)
+    -----------------------------------------
+
+. drop _m exporter
+
+. 
+. 
+. ************************************************************
+. * Table 2: shipments per month, months with shipment - Spain
+. ************************************************************
+. gen n = cards/nmonth
+(249 missing values generated)
+
+. lab var n "Number of shipments per month"
+
+. tabstat n nmonth, statistics(median) by(importer) columns(variables)
+
+Summary statistics: p50
+  by categories of: importer (Selected importers)
+
+      importer |         n    nmonth
+---------------+--------------------
+      1 France |       1.5         9
+     2 Germany |      1.25         7
+       3 Japan |         1         2
+         4 USA |         1         3
+     5 Algeria |         1         2
+       6 China |         1         2
+      7 Russia |         1         2
+8 South Africa |         1         2
+        _r.o.w |         1         2
+---------------+--------------------
+         Total |         1         2
+------------------------------------
+
+. drop n
+
+. 
+. 
+. * LHS vars
+. gen lx = ln(value)
+(249 missing values generated)
+
+. gen ln = ln(cards)
+(249 missing values generated)
+
+. gen lh = ln(nmonth)
+(249 missing values generated)
+
+. gen lnh = ln(cards/nmonth)
+(249 missing values generated)
+
+. gen lv = lx-ln
+(249 missing values generated)
+
+. gen lq = ln(weight)-ln
+(249 missing values generated)
+
+. gen lp = lv-lq
+(249 missing values generated)
+
+. 
+. 
+. * label LHS vars
+. label var lx "ln total margin per importer-product"
+
+. label var ln "ln number of shipments"
+
+. label var lh "ln number of months with shipment"
+
+. label var lnh "ln average shipment number per month"
+
+. label var lv "ln value ssize"
+
+. label var lq "ln quantity ssize"
+
+. label var lp "ln price"
+
+. 
+. 
+. * clustering groups
+. gen cn2 = int(cn8/1000000)
+(249 missing values generated)
+
+. egen cty_cn2 = group(iso2 cn2)
+(249 missing values generated)
+
+. 
+. 
+. * product-mode dummies
+. egen prodmode = group(cn8 mode)
+(249 missing values generated)
+
+. 
+. saveold data/derived/spain_export_2009_with_gravity, replace
+(note: file data/derived/spain_export_2009_with_gravity.dta not found)
+file data/derived/spain_export_2009_with_gravity.dta saved
+
+. 
+end of do-file

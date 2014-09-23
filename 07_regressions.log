@@ -1,0 +1,2099 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     Special Edition                  College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+6-user Stata network perpetual license:
+       Serial number:  501306214221
+         Licensed to:  Miklos Koren
+                       Central European University
+
+Notes:
+      1.  (-v# option or -set maxvar-) 5000 maximum variables
+      2.  Command line editing disabled
+      3.  Stata running in batch mode
+
+Note:  Your site can add messages to the introduction by editing the file
+       stata.msg in the directory where Stata is installed.
+
+. do code/07_regressions.do 
+
+. /*
+> The programs and data files replicate the descriptive statistics and the esti
+> mation results in the paper
+> 
+>         Hornok, Cec’lia and Mikl—s Koren, forthcoming. ÒPer-Shipment Costs an
+> d the Lumpiness of International Trade.Ó Review of Economics and Statistics.
+> 
+> Please cite the above paper when using these programs.
+> 
+> For your convenience, we reproduce some of the data resources here. Although 
+> all of these are widely available macroeconomic data, please check with the d
+> ata vendors whether you have the right to use them.
+> 
+> Our software and data are provided AS IS, and we assume no liability for thei
+> r use or misuse. 
+> 
+> If you have any questions about replication, please contact Mikl—s Koren at k
+> orenm@ceu.hu.
+> */
+. 
+. *** Runs the estimations creating Tables 3-7. Output is exhibit/table*.xls.
+. 
+. set more off
+
+. local spain data/derived/spain_export_2009_with_gravity.dta
+
+. local usa data/derived/usa_export_2009_with_gravity.dta
+
+. 
+. use `usa', clear
+
+. 
+. *****************************************
+. * Table 3: Estimates for U.S. exports
+. *****************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lx day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     444.85
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4224
+                                                  Adj R-squared   =     0.3954
+                                                  Root MSE        =     1.6142
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0013407   .0010741    -1.25   0.212    -.0034462    .0007647
+        lgdp |   .4257903   .0087646    48.58   0.000     .4086103    .4429702
+      lgdppc |   .0318901   .0130714     2.44   0.015     .0062681    .0575121
+   ldistwces |  -.2636188   .0297598    -8.86   0.000    -.3219528   -.2052849
+      island |   .0479209   .0377281     1.27   0.204    -.0260323    .1218741
+  landlocked |  -.2213074    .046624    -4.75   0.000     -.312698   -.1299168
+         fta |   .2168619   .0397926     5.45   0.000     .1388621    .2948617
+       col45 |  -.0414631   .0656958    -0.63   0.528    -.1702374    .0873112
+ comlang_off |   .2816106     .03048     9.24   0.000     .2218649    .3413562
+       _cons |   1.886558   .2795214     6.75   0.000     1.338651    2.434465
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table3.xls, se bracket coefastr 
+> bdec(3) adjr2 replace
+~/ado/plus/o/outreg2.ado
+exhibit/table3.xls
+dir : seeout
+
+. areg ln day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     322.49
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4279
+                                                  Adj R-squared   =     0.4012
+                                                  Root MSE        =     1.1336
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0043697   .0008675    -5.04   0.000    -.0060701   -.0026692
+        lgdp |   .3038203   .0072803    41.73   0.000     .2895498    .3180907
+      lgdppc |   .0256119   .0107474     2.38   0.017     .0045453    .0466786
+   ldistwces |  -.3814932   .0236933   -16.10   0.000    -.4279358   -.3350505
+      island |   .0928636   .0298664     3.11   0.002     .0343208    .1514065
+  landlocked |   -.217671   .0385374    -5.65   0.000    -.2932105   -.1421315
+         fta |   .2335723   .0319726     7.31   0.000     .1709009    .2962438
+       col45 |    -.02697   .0530603    -0.51   0.611    -.1309768    .0770368
+ comlang_off |   .3294857   .0263437    12.51   0.000     .2778477    .3811236
+       _cons |   -3.39457   .2212802   -15.34   0.000    -3.828315   -2.960825
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table3.xls, se bracket coefastr 
+> bdec(3) adjr2 append
+exhibit/table3.xls
+dir : seeout
+
+. areg lv day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     543.57
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4043
+                                                  Adj R-squared   =     0.3765
+                                                  Root MSE        =     0.9406
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0030289    .000348     8.70   0.000     .0023468    .0037111
+        lgdp |     .12197   .0026131    46.68   0.000     .1168479    .1270921
+      lgdppc |   .0062782   .0040535     1.55   0.121    -.0016673    .0142236
+   ldistwces |   .1178743   .0091114    12.94   0.000     .1000145    .1357341
+      island |  -.0449427   .0131308    -3.42   0.001    -.0706811   -.0192043
+  landlocked |  -.0036364   .0138726    -0.26   0.793    -.0308289    .0235561
+         fta |  -.0167104   .0120602    -1.39   0.166    -.0403503    .0069294
+       col45 |  -.0144932   .0225199    -0.64   0.520    -.0586358    .0296495
+ comlang_off |  -.0478751   .0093392    -5.13   0.000    -.0661815   -.0295687
+       _cons |   5.281128    .092934    56.83   0.000     5.098963    5.463294
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table3.xls, se bracket coefastr 
+> bdec(3) adjr2 append
+exhibit/table3.xls
+dir : seeout
+
+. areg lx lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     466.95
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4236
+                                                  Adj R-squared   =     0.3967
+                                                  Root MSE        =     1.6124
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.2137704   .0404238    -5.29   0.000    -.2930075   -.1345332
+        lgdp |   .4264433   .0081379    52.40   0.000     .4104916    .4423949
+      lgdppc |   .0219342   .0129662     1.69   0.091    -.0034817      .04735
+   ldistwces |  -.3411448    .028416   -12.01   0.000    -.3968446   -.2854449
+      island |   .0369788   .0370676     1.00   0.318    -.0356796    .1096373
+  landlocked |  -.1275087   .0498404    -2.56   0.011     -.225204   -.0298135
+         fta |   .1740628    .039219     4.44   0.000     .0971873    .2509384
+       col45 |  -.0714451   .0680309    -1.05   0.294    -.2047967    .0619064
+ comlang_off |   .2957657   .0312577     9.46   0.000     .2344956    .3570358
+       _cons |   4.127233   .4353923     9.48   0.000     3.273794    4.980672
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table3.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table3.xls
+dir : seeout
+
+. areg ln lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     352.12
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4307
+                                                  Adj R-squared   =     0.4041
+                                                  Root MSE        =     1.1308
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.2633213   .0328336    -8.02   0.000    -.3276804   -.1989622
+        lgdp |   .3058296   .0066022    46.32   0.000     .2928883    .3187709
+      lgdppc |   .0275103   .0105861     2.60   0.009     .0067599    .0482607
+   ldistwces |  -.4767359   .0236339   -20.17   0.000    -.5230621   -.4304097
+      island |   .0867753   .0296376     2.93   0.003     .0286809    .1448696
+  landlocked |  -.1183227   .0397669    -2.98   0.003    -.1962721   -.0403732
+         fta |   .1941972   .0326314     5.95   0.000     .1302344      .25816
+       col45 |  -.0439019   .0544551    -0.81   0.420    -.1506427    .0628389
+ comlang_off |   .3506031   .0273571    12.82   0.000     .2969788    .4042275
+       _cons |  -.8536396   .3907278    -2.18   0.029    -1.619529   -.0877504
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table3.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table3.xls
+dir : seeout
+
+. areg lv lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     513.13
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4037
+                                                  Adj R-squared   =     0.3758
+                                                  Root MSE        =     0.9411
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .0495509   .0134079     3.70   0.000     .0232693    .0758325
+        lgdp |   .1206136   .0027197    44.35   0.000     .1152826    .1259447
+      lgdppc |  -.0055762   .0040998    -1.36   0.174    -.0136124    .0024601
+   ldistwces |   .1355912   .0092363    14.68   0.000     .1174866    .1536958
+      island |  -.0497964   .0131834    -3.78   0.000     -.075638   -.0239549
+  landlocked |  -.0091861   .0162661    -0.56   0.572    -.0410702     .022698
+         fta |  -.0201344   .0124033    -1.62   0.105    -.0444467     .004178
+       col45 |  -.0275432   .0231965    -1.19   0.235    -.0730121    .0179256
+ comlang_off |  -.0548374   .0095788    -5.72   0.000    -.0736134   -.0360614
+       _cons |   4.980872   .1451756    34.31   0.000     4.696305     5.26544
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table3.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table3.xls
+dir : seeout
+
+. 
+. 
+. *****************************************************
+. * Table 5: Detailed decomposition regressions - U.S.
+. *****************************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lh day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     459.39
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3779
+                                                  Adj R-squared   =     0.3488
+                                                  Root MSE        =     0.7273
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0030429   .0005604    -5.43   0.000    -.0041413   -.0019444
+        lgdp |   .1794291   .0038877    46.15   0.000     .1718086    .1870496
+      lgdppc |   .0199561   .0063511     3.14   0.002     .0075069    .0324053
+   ldistwces |   -.196472   .0134027   -14.66   0.000    -.2227435   -.1702005
+      island |    .068131    .015536     4.39   0.000      .037678     .098584
+  landlocked |   -.145909   .0225515    -6.47   0.000    -.1901135   -.1017045
+         fta |   .1272257   .0182677     6.96   0.000     .0914181    .1630334
+       col45 |  -.0153515   .0288666    -0.53   0.595    -.0719347    .0412316
+ comlang_off |   .1794921   .0150296    11.94   0.000     .1500316    .2089525
+       _cons |  -2.128403   .1220098   -17.44   0.000    -2.367562   -1.889244
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table5_us.xls, se bracket coefas
+> tr bdec(3) adjr2 replace
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lnh day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     149.21
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3761
+                                                  Adj R-squared   =     0.3470
+                                                  Root MSE        =     0.5845
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0013268    .000341    -3.89   0.000    -.0019952   -.0006584
+        lgdp |   .1243911   .0039753    31.29   0.000     .1165989    .1321833
+      lgdppc |   .0056558   .0048535     1.17   0.244    -.0038579    .0151695
+   ldistwces |  -.1850211   .0128145   -14.44   0.000    -.2101395   -.1599027
+      island |   .0247326   .0165321     1.50   0.135     -.007673    .0571382
+  landlocked |   -.071762   .0171453    -4.19   0.000    -.1053696   -.0381545
+         fta |   .1063466   .0151942     7.00   0.000     .0765636    .1361296
+       col45 |  -.0116184   .0274375    -0.42   0.672    -.0654004    .0421636
+ comlang_off |   .1499936   .0139324    10.77   0.000      .122684    .1773033
+       _cons |  -1.266167    .112802   -11.22   0.000    -1.487277   -1.045057
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table5_us.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lq day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     295.73
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.6921
+                                                  Adj R-squared   =     0.6777
+                                                  Root MSE        =     1.3066
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0018974   .0005235     3.62   0.000     .0008713    .0029235
+        lgdp |   .1372278   .0039051    35.14   0.000     .1295732    .1448823
+      lgdppc |    -.05693   .0062085    -9.17   0.000    -.0690996   -.0447604
+   ldistwces |   .0181772   .0167499     1.09   0.278    -.0146554    .0510098
+      island |  -.0691176   .0171785    -4.02   0.000    -.1027901    -.035445
+  landlocked |  -.0964612    .024278    -3.97   0.000      -.14405   -.0488724
+         fta |   .0223523   .0165253     1.35   0.176      -.01004    .0547445
+       col45 |   -.044095   .0306893    -1.44   0.151    -.1042509    .0160609
+ comlang_off |  -.0172166   .0153927    -1.12   0.263    -.0473889    .0129556
+       _cons |   3.433133   .1353135    25.37   0.000     3.167897    3.698369
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table5_us.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lp day `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =      52.27
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7493
+                                                  Adj R-squared   =     0.7376
+                                                  Root MSE        =     0.9634
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0011315   .0003152     3.59   0.000     .0005137    .0017493
+        lgdp |  -.0152577   .0024594    -6.20   0.000    -.0200786   -.0104368
+      lgdppc |   .0632082   .0039297    16.08   0.000     .0555053     .070911
+   ldistwces |   .0996971   .0108817     9.16   0.000     .0783672     .121027
+      island |   .0241748     .00897     2.70   0.007     .0065921    .0417576
+  landlocked |   .0928248   .0189053     4.91   0.000     .0557674    .1298822
+         fta |  -.0390627    .009831    -3.97   0.000    -.0583329   -.0197925
+       col45 |   .0296018   .0211236     1.40   0.161     -.011804    .0710075
+ comlang_off |  -.0306585   .0101552    -3.02   0.003    -.0505643   -.0107527
+       _cons |   1.847995   .0809705    22.82   0.000      1.68928     2.00671
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day `controls' using exhibit/table5_us.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lh lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     538.93
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3809
+                                                  Adj R-squared   =     0.3520
+                                                  Root MSE        =     0.7255
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.1730375   .0190126    -9.10   0.000    -.2103052   -.1357698
+        lgdp |   .1808256   .0034119    53.00   0.000     .1741377    .1875134
+      lgdppc |   .0220967   .0060453     3.66   0.000     .0102471    .0339464
+   ldistwces |  -.2590434   .0136567   -18.97   0.000    -.2858127   -.2322741
+      island |   .0645962   .0152784     4.23   0.000     .0346481    .0945443
+  landlocked |  -.0816449   .0232562    -3.51   0.000    -.1272309    -.036059
+         fta |   .1021926   .0187558     5.45   0.000     .0654282    .1389569
+       col45 |  -.0252168   .0292889    -0.86   0.389    -.0826278    .0321942
+ comlang_off |   .1936012    .015701    12.33   0.000     .1628247    .2243777
+       _cons |  -.4724889   .2311371    -2.04   0.041    -.9255547   -.0194231
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_us.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lnh lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     153.62
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3776
+                                                  Adj R-squared   =     0.3485
+                                                  Root MSE        =     0.5838
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.0902838   .0150536    -6.00   0.000    -.1197912   -.0607763
+        lgdp |   .1250041   .0037935    32.95   0.000     .1175682    .1324399
+      lgdppc |   .0054136   .0049461     1.09   0.274    -.0042815    .0151087
+   ldistwces |  -.2176926   .0127904   -17.02   0.000    -.2427639   -.1926213
+      island |   .0221791   .0165435     1.34   0.180    -.0102488    .0546069
+  landlocked |  -.0366777   .0177753    -2.06   0.039    -.0715203   -.0018352
+         fta |   .0920046   .0153232     6.00   0.000     .0619688    .1220405
+       col45 |  -.0186851    .028212    -0.66   0.508    -.0739852    .0366151
+ comlang_off |   .1570019   .0142427    11.02   0.000      .129084    .1849198
+       _cons |  -.3811507   .1786966    -2.13   0.033    -.7314248   -.0308766
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_us.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lq lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =     285.06
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.6920
+                                                  Adj R-squared   =     0.6776
+                                                  Root MSE        =     1.3068
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .0150987   .0164383     0.92   0.358     -.017123    .0473205
+        lgdp |   .1363825   .0039113    34.87   0.000     .1287157    .1440492
+      lgdppc |  -.0656192   .0056278   -11.66   0.000    -.0766506   -.0545879
+   ldistwces |   .0234849   .0163544     1.44   0.151    -.0085723    .0555422
+      island |  -.0732459   .0171267    -4.28   0.000    -.1068169   -.0396748
+  landlocked |  -.0923473   .0256125    -3.61   0.000    -.1425518   -.0421427
+         fta |   .0165249   .0164278     1.01   0.314    -.0156763    .0487262
+       col45 |  -.0552414   .0309023    -1.79   0.074    -.1158148    .0053321
+ comlang_off |  -.0206578   .0154803    -1.33   0.182    -.0510017     .009686
+       _cons |   3.420197   .1911901    17.89   0.000     3.045434     3.79496
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_us.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. areg lp lcost `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(   9,  12058) =      54.98
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7493
+                                                  Adj R-squared   =     0.7376
+                                                  Root MSE        =     0.9634
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .0344522   .0094063     3.66   0.000     .0160144    .0528901
+        lgdp |  -.0157688   .0024646    -6.40   0.000    -.0205998   -.0109378
+      lgdppc |   .0600431   .0035526    16.90   0.000     .0530794    .0670068
+   ldistwces |   .1121062   .0111916    10.02   0.000     .0901689    .1340436
+      island |   .0234494   .0090975     2.58   0.010     .0056169     .041282
+  landlocked |   .0831612   .0192037     4.33   0.000     .0455189    .1208035
+         fta |  -.0366593   .0097932    -3.74   0.000    -.0558555   -.0174631
+       col45 |   .0276981   .0210867     1.31   0.189    -.0136353    .0690316
+ comlang_off |  -.0341796   .0102279    -3.34   0.001    -.0542279   -.0141312
+       _cons |   1.560675   .1242396    12.56   0.000     1.317146    1.804205
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_us.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_us.xls
+dir : seeout
+
+. 
+. 
+. ********************************************************
+. * Table 6: Regressions with two procedural costs - U.S.
+. ********************************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lh adminday transitday `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     415.69
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3779
+                                                  Adj R-squared   =     0.3489
+                                                  Root MSE        =     0.7273
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |  -.0026496   .0008937    -2.96   0.003    -.0044014   -.0008978
+  transitday |  -.0041974   .0015934    -2.63   0.008    -.0073208   -.0010741
+        lgdp |   .1794216   .0038682    46.38   0.000     .1718394    .1870039
+      lgdppc |   .0197893   .0063391     3.12   0.002     .0073636     .032215
+   ldistwces |  -.1955906   .0135465   -14.44   0.000    -.2221439   -.1690372
+      island |   .0677554   .0154543     4.38   0.000     .0374624    .0980484
+  landlocked |  -.1408806   .0242859    -5.80   0.000    -.1884849   -.0932763
+         fta |    .127705   .0182799     6.99   0.000     .0918735    .1635366
+       col45 |  -.0169439   .0292167    -0.58   0.562    -.0742133    .0403255
+ comlang_off |   .1823135   .0155141    11.75   0.000     .1519034    .2127237
+       _cons |  -2.133867   .1233529   -17.30   0.000    -2.375658   -1.892075
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_us.xls, s
+> e bracket coefastr bdec(3) adjr2 replace
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lnh adminday transitday `controls' if kg==1, a(prodmode) cluster(cty_hs2
+> )
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     134.42
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3761
+                                                  Adj R-squared   =     0.3470
+                                                  Root MSE        =     0.5845
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |  -.0017153   .0005833    -2.94   0.003    -.0028588   -.0005719
+  transitday |  -.0002411   .0011776    -0.20   0.838    -.0025493    .0020671
+        lgdp |   .1244779   .0039778    31.29   0.000     .1166807     .132275
+      lgdppc |   .0055826   .0048838     1.14   0.253    -.0039905    .0151556
+   ldistwces |  -.1858435     .01317   -14.11   0.000    -.2116589   -.1600281
+      island |    .024931   .0165086     1.51   0.131    -.0074285    .0572906
+  landlocked |  -.0764799    .017898    -4.27   0.000    -.1115628   -.0413969
+         fta |   .1057356   .0153737     6.88   0.000     .0756007    .1358704
+       col45 |  -.0107048   .0276957    -0.39   0.699    -.0649927    .0435832
+ comlang_off |   .1476834   .0144738    10.20   0.000     .1193125    .1760543
+       _cons |  -1.260744   .1151599   -10.95   0.000    -1.486476   -1.035012
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_us.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lq adminday transitday `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     268.07
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.6921
+                                                  Adj R-squared   =     0.6777
+                                                  Root MSE        =     1.3066
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |   .0031248   .0008953     3.49   0.000       .00137    .0048797
+  transitday |  -.0017063   .0018275    -0.93   0.350    -.0052886    .0018759
+        lgdp |   .1369737   .0038776    35.32   0.000      .129373    .1445743
+      lgdppc |  -.0570227    .006145    -9.28   0.000    -.0690678   -.0449776
+   ldistwces |   .0208788   .0169228     1.23   0.217    -.0122927    .0540502
+      island |  -.0699639   .0169834    -4.12   0.000    -.1032541   -.0366738
+  landlocked |  -.0807346   .0244107    -3.31   0.001    -.1285835   -.0328857
+         fta |   .0240788   .0164259     1.47   0.143    -.0081187    .0562762
+       col45 |   -.047721   .0306994    -1.55   0.120    -.1078968    .0124547
+ comlang_off |  -.0094749   .0156989    -0.60   0.546    -.0402472    .0212974
+       _cons |   3.418525   .1366057    25.02   0.000     3.150756    3.686295
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_us.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lp adminday transitday `controls' if kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =      47.95
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7493
+                                                  Adj R-squared   =     0.7376
+                                                  Root MSE        =     0.9634
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |   .0015276   .0005847     2.61   0.009     .0003816    .0026736
+  transitday |   .0000193   .0011812     0.02   0.987    -.0022961    .0023347
+        lgdp |  -.0153425   .0024788    -6.19   0.000    -.0202014   -.0104836
+      lgdppc |    .063267   .0039316    16.09   0.000     .0555605    .0709736
+   ldistwces |   .1005393   .0111173     9.04   0.000     .0787476     .122331
+      island |   .0239614   .0089816     2.67   0.008     .0063561    .0415668
+  landlocked |   .0976595   .0189686     5.15   0.000     .0604781    .1348409
+         fta |  -.0384493   .0098186    -3.92   0.000    -.0576953   -.0192032
+       col45 |   .0286296   .0211431     1.35   0.176    -.0128144    .0700736
+ comlang_off |  -.0282756   .0101801    -2.78   0.005    -.0482302    -.008321
+       _cons |   1.842515   .0821541    22.43   0.000     1.681479     2.00355
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_us.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lh ladmincost ltransitcost `controls' if kg==1, a(prodmode) cluster(cty_
+> hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     477.34
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3814
+                                                  Adj R-squared   =     0.3525
+                                                  Root MSE        =     0.7252
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |  -.0997891   .0138712    -7.19   0.000    -.1269788   -.0725994
+ltransitcost |  -.0708904   .0176181    -4.02   0.000    -.1054247    -.036356
+        lgdp |   .1796796   .0035537    50.56   0.000     .1727137    .1866455
+      lgdppc |   .0172843   .0061715     2.80   0.005     .0051872    .0293814
+   ldistwces |  -.2570671   .0140419   -18.31   0.000    -.2845915   -.2295427
+      island |   .0707031   .0152213     4.65   0.000      .040867    .1005392
+  landlocked |  -.1256697   .0264675    -4.75   0.000    -.1775504   -.0737891
+         fta |   .1006082   .0190132     5.29   0.000     .0633392    .1378772
+       col45 |  -.0249559   .0282098    -0.88   0.376    -.0802517    .0303399
+ comlang_off |   .1869429    .015597    11.99   0.000     .1563702    .2175155
+       _cons |  -.5706756   .2236336    -2.55   0.011    -1.009033   -.1323178
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_us.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lnh ladmincost ltransitcost `controls' if kg==1, a(prodmode) cluster(cty
+> _hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     143.19
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3786
+                                                  Adj R-squared   =     0.3496
+                                                  Root MSE        =     0.5833
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |  -.0740736     .01158    -6.40   0.000    -.0967723   -.0513748
+ltransitcost |  -.0246267   .0144003    -1.71   0.087    -.0528536    .0036002
+        lgdp |   .1237625   .0038845    31.86   0.000     .1161483    .1313768
+      lgdppc |  -.0002449   .0047953    -0.05   0.959    -.0096446    .0091547
+   ldistwces |  -.2192373   .0128531   -17.06   0.000    -.2444315   -.1940431
+      island |   .0269973   .0163101     1.66   0.098    -.0049731    .0589676
+  landlocked |  -.0720298   .0209779    -3.43   0.001    -.1131498   -.0309098
+         fta |    .086825   .0154494     5.62   0.000     .0565417    .1171084
+       col45 |  -.0211708   .0267589    -0.79   0.429    -.0736225    .0312809
+ comlang_off |   .1520587   .0137805    11.03   0.000     .1250467    .1790707
+       _cons |  -.3126383   .1770423    -1.77   0.077    -.6596696     .034393
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_us.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lq ladmincost ltransitcost `controls' if kg==1, a(prodmode) cluster(cty_
+> hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =     257.83
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.6920
+                                                  Adj R-squared   =     0.6776
+                                                  Root MSE        =     1.3068
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |   .0106609   .0129768     0.82   0.411    -.0147757    .0360975
+ltransitcost |   .0052284   .0157583     0.33   0.740    -.0256603    .0361172
+        lgdp |   .1365376   .0038845    35.15   0.000     .1289232    .1441519
+      lgdppc |  -.0649152   .0058287   -11.14   0.000    -.0763404     -.05349
+   ldistwces |   .0235955   .0164966     1.43   0.153    -.0087406    .0559315
+      island |  -.0739091   .0170373    -4.34   0.000    -.1073051   -.0405132
+  landlocked |  -.0875109   .0281687    -3.11   0.002    -.1427261   -.0322958
+         fta |   .0170737   .0162837     1.05   0.294     -.014845    .0489923
+       col45 |  -.0550092   .0308866    -1.78   0.075    -.1155519    .0055335
+ comlang_off |  -.0199575    .015176    -1.32   0.189    -.0497049      .00979
+       _cons |   3.416745   .1826378    18.71   0.000     3.058745    3.774744
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_us.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. areg lp ladmincost ltransitcost `controls' if kg==1, a(prodmode) cluster(cty_
+> hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  10,  12058) =      54.78
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7493
+                                                  Adj R-squared   =     0.7376
+                                                  Root MSE        =     0.9634
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |  -.0029801   .0081621    -0.37   0.715    -.0189791    .0130189
+ltransitcost |   .0342292   .0095666     3.58   0.000     .0154771    .0529813
+        lgdp |  -.0163133   .0024212    -6.74   0.000    -.0210593   -.0115673
+      lgdppc |   .0579775   .0037997    15.26   0.000     .0505294    .0654255
+   ldistwces |   .1118607   .0112696     9.93   0.000     .0897705    .1339509
+      island |   .0246793   .0090506     2.73   0.006     .0069387    .0424199
+  landlocked |   .0736506   .0212335     3.47   0.001     .0320295    .1152716
+         fta |  -.0396114   .0096965    -4.09   0.000     -.058618   -.0206047
+       col45 |   .0260776   .0211022     1.24   0.217    -.0152862    .0674413
+ comlang_off |  -.0349523   .0100567    -3.48   0.001    -.0546651   -.0152395
+       _cons |   1.632257   .1199485    13.61   0.000     1.397138    1.867375
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_us.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_us.xls
+dir : seeout
+
+. 
+. 
+. 
+. * define bec groups     
+. gen byte food = (bec>=111 & bec<=122)
+
+. gen byte ind = (bec==21 | bec==22)
+
+. gen byte captran = (bec==41 | bec==51 | bec==521 | bec==522)
+
+. gen byte parts = (bec==42 | bec==53)
+
+. gen byte dur = bec==61
+
+. gen byte sdur = bec==62
+
+. gen byte ndur = bec==63
+
+. 
+. * interactions with bec groups
+. foreach v of varlist food ind captran parts dur sdur ndur {
+  2.         gen day_`v' = day * `v'
+  3.         gen lcost_`v' = lcost * `v'
+  4. }
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+(27842 missing values generated)
+
+. 
+. *********************************************
+. * Table 7: Product-specific estimates - U.S.
+. *********************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lx day_f day_i day_c day_p day_d day_s day_n `controls' if kg==1, a(prod
+> mode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     288.11
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4225
+                                                  Adj R-squared   =     0.3955
+                                                  Root MSE        =     1.6140
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |   .0013927   .0019176     0.73   0.468    -.0023662    .0051515
+     day_ind |  -.0011146   .0010371    -1.07   0.283    -.0031475    .0009184
+ day_captran |  -.0008326   .0018533    -0.45   0.653    -.0044654    .0028002
+   day_parts |  -.0029245   .0018361    -1.59   0.111    -.0065236    .0006746
+     day_dur |  -.0009335   .0026937    -0.35   0.729    -.0062136    .0043467
+    day_sdur |   .0016033   .0013172     1.22   0.224    -.0009786    .0041851
+    day_ndur |  -.0056599   .0017456    -3.24   0.001    -.0090816   -.0022382
+        lgdp |   .4258449   .0087698    48.56   0.000     .4086547    .4430351
+      lgdppc |   .0320424   .0131684     2.43   0.015     .0062302    .0578546
+   ldistwces |  -.2632693   .0299213    -8.80   0.000    -.3219199   -.2046188
+      island |   .0481274   .0376722     1.28   0.201    -.0257161    .1219709
+  landlocked |  -.2204865   .0463132    -4.76   0.000    -.3112679   -.1297052
+         fta |   .2172609   .0397938     5.46   0.000     .1392587    .2952631
+       col45 |  -.0428919   .0658567    -0.65   0.515    -.1719817    .0861979
+ comlang_off |   .2821654   .0305271     9.24   0.000     .2223275    .3420034
+       _cons |   1.878727   .2813218     6.68   0.000     1.327291    2.430163
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 replace
+exhibit/table7_us.xls
+dir : seeout
+
+. areg ln day_f day_i day_c day_p day_d day_s day_n `controls' if kg==1, a(prod
+> mode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     234.52
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4281
+                                                  Adj R-squared   =     0.4014
+                                                  Root MSE        =     1.1334
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |  -.0030745   .0015506    -1.98   0.047    -.0061138   -.0000351
+     day_ind |  -.0041794   .0007999    -5.22   0.000    -.0057473   -.0026115
+ day_captran |  -.0036331   .0015252    -2.38   0.017    -.0066228   -.0006434
+   day_parts |  -.0067294   .0015643    -4.30   0.000    -.0097956   -.0036632
+     day_dur |   -.001927    .001887    -1.02   0.307    -.0056258    .0017718
+    day_sdur |  -.0013708   .0010682    -1.28   0.199    -.0034647     .000723
+    day_ndur |  -.0061736   .0011392    -5.42   0.000    -.0084067   -.0039406
+        lgdp |   .3038588   .0072867    41.70   0.000     .2895756     .318142
+      lgdppc |   .0257683   .0108505     2.37   0.018     .0044995     .047037
+   ldistwces |  -.3810646   .0237889   -16.02   0.000    -.4276947   -.3344346
+      island |    .093223   .0297948     3.13   0.002     .0348204    .1516257
+  landlocked |  -.2167196   .0383704    -5.65   0.000    -.2919318   -.1415074
+         fta |   .2339539   .0319163     7.33   0.000     .1713929    .2965149
+       col45 |  -.0283469   .0532293    -0.53   0.594    -.1326849    .0759911
+ comlang_off |   .3299776   .0263505    12.52   0.000     .2783264    .3816288
+       _cons |  -3.402642   .2222271   -15.31   0.000    -3.838243   -2.967041
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_us.xls
+dir : seeout
+
+. areg lv day_f day_i day_c day_p day_d day_s day_n `controls' if kg==1, a(prod
+> mode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     330.24
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4044
+                                                  Adj R-squared   =     0.3766
+                                                  Root MSE        =     0.9405
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |   .0044671   .0008414     5.31   0.000     .0028178    .0061164
+     day_ind |   .0030648   .0004229     7.25   0.000     .0022358    .0038938
+ day_captran |   .0028005   .0005167     5.42   0.000     .0017878    .0038133
+   day_parts |   .0038049   .0005387     7.06   0.000      .002749    .0048608
+     day_dur |   .0009935   .0010173     0.98   0.329    -.0010005    .0029875
+    day_sdur |   .0029741   .0005155     5.77   0.000     .0019637    .0039845
+    day_ndur |   .0005137   .0010862     0.47   0.636    -.0016153    .0026428
+        lgdp |   .1219861   .0026114    46.71   0.000     .1168673    .1271049
+      lgdppc |   .0062742   .0040559     1.55   0.122     -.001676    .0142243
+   ldistwces |   .1177953   .0091608    12.86   0.000     .0998387    .1357519
+      island |  -.0450956   .0131489    -3.43   0.001    -.0708697   -.0193216
+  landlocked |  -.0037669   .0138237    -0.27   0.785    -.0308636    .0233297
+         fta |   -.016693   .0121256    -1.38   0.169     -.040461    .0070751
+       col45 |   -.014545   .0225644    -0.64   0.519    -.0587749    .0296849
+ comlang_off |  -.0478122    .009355    -5.11   0.000    -.0661494   -.0294749
+       _cons |   5.281368   .0936715    56.38   0.000     5.097757     5.46498
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_us.xls
+dir : seeout
+
+. areg lx lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     321.73
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4240
+                                                  Adj R-squared   =     0.3971
+                                                  Root MSE        =     1.6118
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |   -.099638   .0508372    -1.96   0.050    -.1992871     .000011
+   lcost_ind |  -.1428206   .0371811    -3.84   0.000    -.2157016   -.0699397
+lcost_capt~n |  -.3181605    .072085    -4.41   0.000    -.4594588   -.1768623
+ lcost_parts |  -.3263174   .0834832    -3.91   0.000    -.4899578   -.1626769
+   lcost_dur |  -.1204015   .0730943    -1.65   0.100     -.263678    .0228751
+  lcost_sdur |  -.0639839   .0456448    -1.40   0.161     -.153455    .0254873
+  lcost_ndur |   -.105888   .0516306    -2.05   0.040    -.2070923   -.0046837
+        lgdp |    .426303   .0078713    54.16   0.000      .410874     .441732
+      lgdppc |   .0208934   .0127825     1.63   0.102    -.0041623    .0459491
+   ldistwces |  -.3342441   .0283402   -11.79   0.000    -.3897954   -.2786928
+      island |   .0355888   .0366577     0.97   0.332    -.0362662    .1074438
+  landlocked |  -.1194213   .0512718    -2.33   0.020    -.2199222   -.0189204
+         fta |    .175597   .0378544     4.64   0.000     .1013964    .2497977
+       col45 |  -.0758708   .0711814    -1.07   0.286    -.2153979    .0636562
+ comlang_off |   .2964236   .0313882     9.44   0.000     .2348977    .3579496
+       _cons |   4.017495     .42772     9.39   0.000     3.179095    4.855895
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_us.xls
+dir : seeout
+
+. areg ln lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     238.17
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4312
+                                                  Adj R-squared   =     0.4046
+                                                  Root MSE        =     1.1304
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |  -.1548768   .0435944    -3.55   0.000    -.2403288   -.0694248
+   lcost_ind |  -.2245511   .0310629    -7.23   0.000    -.2854394   -.1636627
+lcost_capt~n |  -.3272748   .0555762    -5.89   0.000     -.436213   -.2183365
+ lcost_parts |  -.3567988   .0673216    -5.30   0.000    -.4887598   -.2248377
+   lcost_dur |  -.1327515   .0522875    -2.54   0.011    -.2352434   -.0302597
+  lcost_sdur |  -.1343518   .0382798    -3.51   0.000    -.2093865   -.0593172
+  lcost_ndur |  -.2084808   .0393777    -5.29   0.000    -.2856674   -.1312941
+        lgdp |   .3057856   .0064615    47.32   0.000     .2931201    .3184512
+      lgdppc |   .0268837   .0105064     2.56   0.011     .0062895    .0474779
+   ldistwces |  -.4719259   .0236193   -19.98   0.000    -.5182235   -.4256282
+      island |   .0854009   .0294385     2.90   0.004     .0276967    .1431051
+  landlocked |  -.1128847   .0406773    -2.78   0.006    -.1926187   -.0331507
+         fta |   .1953603   .0318804     6.13   0.000     .1328695    .2578511
+       col45 |  -.0463903   .0567978    -0.82   0.414     -.157723    .0649425
+ comlang_off |   .3509973   .0274896    12.77   0.000     .2971132    .4048813
+       _cons |  -.9344623   .3837285    -2.44   0.015    -1.686632   -.1822927
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_us.xls
+dir : seeout
+
+. areg lv lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  kg==1, a(prodmode) cluster(cty_hs2)
+
+Linear regression, absorbing indicators           Number of obs   =     462927
+                                                  F(  15,  12058) =     330.59
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4038
+                                                  Adj R-squared   =     0.3760
+                                                  Root MSE        =     0.9410
+
+                            (Std. Err. adjusted for 12059 clusters in cty_hs2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |   .0552388   .0228277     2.42   0.016     .0104928    .0999847
+   lcost_ind |   .0817304    .013713     5.96   0.000     .0548508    .1086101
+lcost_capt~n |   .0091143   .0246763     0.37   0.712    -.0392552    .0574837
+ lcost_parts |   .0304814   .0247703     1.23   0.219    -.0180724    .0790353
+   lcost_dur |   .0123501   .0301551     0.41   0.682    -.0467588     .071459
+  lcost_sdur |    .070368   .0166099     4.24   0.000     .0378099     .102926
+  lcost_ndur |   .1025928   .0280802     3.65   0.000      .047551    .1576346
+        lgdp |   .1205174   .0026254    45.90   0.000     .1153712    .1256635
+      lgdppc |  -.0059903   .0040098    -1.49   0.135    -.0138502    .0018696
+   ldistwces |   .1376817   .0091685    15.02   0.000       .11971    .1556535
+      island |  -.0498121   .0130289    -3.82   0.000    -.0753508   -.0242734
+  landlocked |  -.0065366   .0166866    -0.39   0.695    -.0392449    .0261718
+         fta |  -.0197633   .0119634    -1.65   0.099    -.0432134    .0036869
+       col45 |  -.0294806   .0236496    -1.25   0.213    -.0758377    .0168765
+ comlang_off |  -.0545736   .0095318    -5.73   0.000    -.0732575   -.0358897
+       _cons |   4.951958   .1430908    34.61   0.000     4.671477    5.232439
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (20653 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_us.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_us.xls
+dir : seeout
+
+. 
+. 
+.         
+. use `spain', clear      
+
+. *****************************************
+. * Table 4: Estimates for Spanish exports
+. *****************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lx day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     320.09
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4195
+                                                  Adj R-squared   =     0.3318
+                                                  Root MSE        =     1.5031
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |    .000804   .0007111     1.13   0.258    -.0005899     .002198
+        lgdp |   .3031569   .0078453    38.64   0.000     .2877778    .3185359
+      lgdppc |   .0240772   .0109018     2.21   0.027     .0027064     .045448
+   ldistwces |  -.3900404   .0255284   -15.28   0.000    -.4400836   -.3399973
+      island |  -.0252311   .0389299    -0.65   0.517    -.1015451    .0510829
+  landlocked |  -.1241813   .0426163    -2.91   0.004    -.2077217   -.0406409
+         fta |   .1382716   .0358259     3.86   0.000     .0680425    .2085008
+       col45 |   .4559955   .0889442     5.13   0.000      .281639     .630352
+ comlang_off |   .2255095    .026805     8.41   0.000     .1729639     .278055
+       _cons |   5.772963    .240423    24.01   0.000     5.301664    6.244263
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table4.xls, se bracket coefastr 
+> bdec(3) adjr2 replace
+exhibit/table4.xls
+dir : seeout
+
+. areg ln day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     297.21
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3929
+                                                  Adj R-squared   =     0.3012
+                                                  Root MSE        =     1.0104
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0048025    .000528    -9.10   0.000    -.0058375   -.0037676
+        lgdp |   .2089946   .0060083    34.78   0.000     .1972167    .2207725
+      lgdppc |   .0162809   .0078788     2.07   0.039     .0008361    .0317256
+   ldistwces |  -.3165285    .027173   -11.65   0.000    -.3697956   -.2632614
+      island |   .0431103     .02934     1.47   0.142    -.0144046    .1006252
+  landlocked |  -.0123753   .0313979    -0.39   0.693    -.0739243    .0491737
+         fta |    .169135   .0277292     6.10   0.000     .1147777    .2234924
+       col45 |   .4725835    .060242     7.84   0.000     .3544917    .5906754
+ comlang_off |   .2537683   .0210883    12.03   0.000      .212429    .2951075
+       _cons |  -1.900202   .2234595    -8.50   0.000    -2.338248   -1.462156
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table4.xls, se bracket coefastr 
+> bdec(3) adjr2 append
+exhibit/table4.xls
+dir : seeout
+
+. areg lv day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     111.55
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4555
+                                                  Adj R-squared   =     0.3732
+                                                  Root MSE        =     0.9304
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0056066   .0005012    11.19   0.000      .004624    .0065891
+        lgdp |   .0941622   .0041007    22.96   0.000     .0861237    .1022008
+      lgdppc |   .0077964   .0059182     1.32   0.188    -.0038051    .0193978
+   ldistwces |  -.0735119   .0143351    -5.13   0.000    -.1016129    -.045411
+      island |  -.0683414   .0182332    -3.75   0.000    -.1040838    -.032599
+  landlocked |   -.111806   .0239214    -4.67   0.000    -.1586989   -.0649131
+         fta |  -.0308634   .0165841    -1.86   0.063    -.0633731    .0016463
+       col45 |  -.0165881   .0506035    -0.33   0.743    -.1157858    .0826096
+ comlang_off |  -.0282588   .0149894    -1.89   0.059    -.0576424    .0011248
+       _cons |   7.673166   .1365938    56.18   0.000     7.405402    7.940929
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table4.xls, se bracket coefastr 
+> bdec(3) adjr2 append
+exhibit/table4.xls
+dir : seeout
+
+. areg lx lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     322.05
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4195
+                                                  Adj R-squared   =     0.3318
+                                                  Root MSE        =     1.5032
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.0030628   .0296072    -0.10   0.918    -.0611015     .054976
+        lgdp |   .3030362    .007674    39.49   0.000     .2879929    .3180794
+      lgdppc |   .0202634   .0107088     1.89   0.059    -.0007289    .0412557
+   ldistwces |  -.3905514   .0262149   -14.90   0.000    -.4419402   -.3391625
+      island |  -.0309405   .0387004    -0.80   0.424    -.1068045    .0449235
+  landlocked |   -.114953   .0452395    -2.54   0.011    -.2036357   -.0262703
+         fta |   .1342632   .0366282     3.67   0.000     .0624612    .2060652
+       col45 |   .4779975   .0875457     5.46   0.000     .3063823    .6496127
+ comlang_off |   .2280393   .0274582     8.30   0.000     .1742132    .2818654
+       _cons |   5.853182   .3693295    15.85   0.000     5.129188    6.577175
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table4.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table4.xls
+dir : seeout
+
+. areg ln lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     294.89
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3920
+                                                  Adj R-squared   =     0.3001
+                                                  Root MSE        =     1.0111
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.1071148   .0216659    -4.94   0.000    -.1495862   -.0646434
+        lgdp |   .2140855   .0060935    35.13   0.000     .2021404    .2260306
+      lgdppc |   .0284686   .0078884     3.61   0.000      .013005    .0439323
+   ldistwces |  -.3285658   .0279867   -11.74   0.000    -.3834279   -.2737037
+      island |    .060935   .0294273     2.07   0.038      .003249     .118621
+  landlocked |   .0054012   .0323888     0.17   0.868    -.0580904    .0688928
+         fta |   .1725475   .0289223     5.97   0.000     .1158514    .2292436
+       col45 |   .3408718   .0602974     5.65   0.000     .2226714    .4590722
+ comlang_off |   .2865286   .0222597    12.87   0.000     .2428931    .3301642
+       _cons |  -1.392116   .3222637    -4.32   0.000    -2.023847    -.760385
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table4.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table4.xls
+dir : seeout
+
+. areg lv lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =      89.30
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4537
+                                                  Adj R-squared   =     0.3711
+                                                  Root MSE        =     0.9319
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .1040521   .0185821     5.60   0.000     .0676257    .1404784
+        lgdp |   .0889507   .0044565    19.96   0.000     .0802146    .0976867
+      lgdppc |  -.0082052   .0062663    -1.31   0.190    -.0204889    .0040785
+   ldistwces |  -.0619856   .0150202    -4.13   0.000    -.0914296   -.0325415
+      island |  -.0918755   .0185438    -4.95   0.000    -.1282267   -.0555244
+  landlocked |  -.1203542   .0277291    -4.34   0.000    -.1747113   -.0659971
+         fta |  -.0382843   .0167659    -2.28   0.022    -.0711504   -.0054183
+       col45 |   .1371257   .0488091     2.81   0.005     .0414456    .2328057
+ comlang_off |  -.0584893   .0171436    -3.41   0.001    -.0920957   -.0248829
+       _cons |   7.245298   .1962766    36.91   0.000     6.860538    7.630057
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table4.xls, se bracket coefast
+> r bdec(3) adjr2 append
+exhibit/table4.xls
+dir : seeout
+
+. 
+. *****************************************************
+. * Table 5: Detailed decomposition regressions - Spain
+. *****************************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lh day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     383.02
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3685
+                                                  Adj R-squared   =     0.2731
+                                                  Root MSE        =     0.7087
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0035222   .0003457   -10.19   0.000    -.0041998   -.0028446
+        lgdp |   .1364941   .0036515    37.38   0.000     .1293362    .1436521
+      lgdppc |   .0143552   .0051214     2.80   0.005     .0043157    .0243947
+   ldistwces |  -.1983901   .0175929   -11.28   0.000    -.2328773   -.1639029
+      island |   .0295849   .0187431     1.58   0.115    -.0071571    .0663269
+  landlocked |  -.0278681   .0186475    -1.49   0.135    -.0644226    .0086864
+         fta |   .1339656   .0173408     7.73   0.000     .0999726    .1679585
+       col45 |   .2964607   .0392061     7.56   0.000     .2196053     .373316
+ comlang_off |   .1822595    .013488    13.51   0.000     .1558191       .2087
+       _cons |  -1.250733   .1440192    -8.68   0.000    -1.533053   -.9684137
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table5_es.xls, se bracket coefas
+> tr bdec(3) adjr2 replace
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lnh day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     128.76
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3428
+                                                  Adj R-squared   =     0.2435
+                                                  Root MSE        =     0.4506
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |  -.0012804   .0002235    -5.73   0.000    -.0017184   -.0008423
+        lgdp |   .0725005   .0027977    25.91   0.000     .0670161    .0779849
+      lgdppc |   .0019256   .0033294     0.58   0.563     -.004601    .0084522
+   ldistwces |  -.1181384   .0105117   -11.24   0.000    -.1387443   -.0975324
+      island |   .0135254   .0123372     1.10   0.273    -.0106591    .0377098
+  landlocked |   .0154928   .0163481     0.95   0.343    -.0165542    .0475398
+         fta |   .0351695   .0119808     2.94   0.003     .0116836    .0586554
+       col45 |   .1761229   .0246212     7.15   0.000     .1278582    .2243875
+ comlang_off |   .0715087   .0089884     7.96   0.000     .0538889    .0891286
+       _cons |  -.6494687   .0912023    -7.12   0.000    -.8282519   -.4706856
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table5_es.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lq day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =      76.71
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7373
+                                                  Adj R-squared   =     0.6976
+                                                  Root MSE        =     1.2866
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0044937   .0006142     7.32   0.000     .0032897    .0056976
+        lgdp |   .0937785   .0053705    17.46   0.000     .0832509    .1043062
+      lgdppc |  -.0715468   .0086599    -8.26   0.000    -.0885226   -.0545709
+   ldistwces |  -.1384524   .0179448    -7.72   0.000    -.1736295   -.1032752
+      island |  -.1571248   .0249173    -6.31   0.000    -.2059701   -.1082795
+  landlocked |  -.2315357   .0386502    -5.99   0.000    -.3073014   -.1557699
+         fta |  -.0498242   .0212867    -2.34   0.019    -.0915523   -.0080962
+       col45 |   .1600495   .0821915     1.95   0.052    -.0010697    .3211688
+ comlang_off |  -.0547762   .0193464    -2.83   0.005    -.0927007   -.0168517
+       _cons |   6.236667   .1694166    36.81   0.000     5.904562    6.568773
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table5_es.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lp day `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =      47.26
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7710
+                                                  Adj R-squared   =     0.7364
+                                                  Root MSE        =     0.9638
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         day |   .0011129   .0004919     2.26   0.024     .0001486    .0020771
+        lgdp |   .0003837    .003836     0.10   0.920    -.0071359    .0079033
+      lgdppc |   .0793431   .0062759    12.64   0.000     .0670405    .0916458
+   ldistwces |   .0649405   .0112646     5.77   0.000     .0428586    .0870223
+      island |   .0887834   .0189223     4.69   0.000     .0516901    .1258767
+  landlocked |   .1197297   .0293561     4.08   0.000     .0621832    .1772762
+         fta |   .0189608   .0129987     1.46   0.145    -.0065205    .0444421
+       col45 |  -.1766376   .0606973    -2.91   0.004     -.295622   -.0576532
+ comlang_off |   .0265174   .0137807     1.92   0.054    -.0004968    .0535316
+       _cons |   1.436498   .1017716    14.11   0.000     1.236996       1.636
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day `controls' using exhibit/table5_es.xls, se bracket coefas
+> tr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lh lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     373.24
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3676
+                                                  Adj R-squared   =     0.2720
+                                                  Root MSE        =     0.7092
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.0824181   .0138422    -5.95   0.000    -.1095528   -.0552834
+        lgdp |   .1403623   .0037517    37.41   0.000     .1330078    .1477168
+      lgdppc |   .0229677   .0051519     4.46   0.000     .0128684     .033067
+   ldistwces |  -.2076827   .0181104   -11.47   0.000    -.2431843   -.1721811
+      island |   .0421566   .0186817     2.26   0.024      .005535    .0787781
+  landlocked |   -.012587   .0195466    -0.64   0.520    -.0509041      .02573
+         fta |   .1358364   .0179909     7.55   0.000      .100569    .1711037
+       col45 |   .1998542   .0393203     5.08   0.000      .122775    .2769334
+ comlang_off |   .2077595   .0148908    13.95   0.000     .1785692    .2369498
+       _cons |  -.8477159   .2047966    -4.14   0.000    -1.249177   -.4462548
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_es.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lnh lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =     130.32
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3424
+                                                  Adj R-squared   =     0.2430
+                                                  Root MSE        =     0.4508
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |  -.0246967   .0092547    -2.67   0.008    -.0428387   -.0065547
+        lgdp |   .0737232   .0027791    26.53   0.000     .0682753     .079171
+      lgdppc |   .0055009   .0032862     1.67   0.094     -.000941    .0119428
+   ldistwces |  -.1208831    .010853   -11.14   0.000    -.1421582   -.0996079
+      island |   .0187785    .012441     1.51   0.131    -.0056096    .0431666
+  landlocked |   .0179882   .0167397     1.07   0.283    -.0148264    .0508029
+         fta |   .0367112   .0125272     2.93   0.003     .0121542    .0612681
+       col45 |   .1410176   .0244075     5.78   0.000     .0931718    .1888633
+ comlang_off |   .0787692   .0089087     8.84   0.000     .0613055    .0962328
+       _cons |  -.5444001   .1347899    -4.04   0.000    -.8086277   -.2801725
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_es.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lq lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =      67.68
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7369
+                                                  Adj R-squared   =     0.6971
+                                                  Root MSE        =     1.2875
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .0549866   .0219381     2.51   0.012     .0119815    .0979918
+        lgdp |   .0905915   .0056277    16.10   0.000     .0795596    .1016234
+      lgdppc |  -.0867718   .0085968   -10.09   0.000     -.103624   -.0699196
+   ldistwces |  -.1326324   .0185366    -7.16   0.000    -.1689697   -.0962952
+      island |  -.1796753   .0249272    -7.21   0.000    -.2285398   -.1308108
+  landlocked |  -.2218721   .0414652    -5.35   0.000    -.3031559   -.1405883
+         fta |  -.0604233   .0214801    -2.81   0.005    -.1025305   -.0183161
+       col45 |   .2831854   .0801494     3.53   0.000     .1260691    .4403016
+ comlang_off |  -.0681608   .0198778    -3.43   0.001     -.107127   -.0291945
+       _cons |   6.117388   .2379758    25.71   0.000     5.650886     6.58389
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_es.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. areg lp lcost `controls' if eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(   9,   7238) =      49.36
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7710
+                                                  Adj R-squared   =     0.7364
+                                                  Root MSE        =     0.9637
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lcost |   .0490654   .0146331     3.35   0.001     .0203803    .0777505
+        lgdp |  -.0016408   .0038055    -0.43   0.666    -.0091008    .0058191
+      lgdppc |   .0785666   .0057212    13.73   0.000     .0673514    .0897818
+   ldistwces |   .0706468   .0113614     6.22   0.000     .0483752    .0929184
+      island |   .0877998   .0186954     4.70   0.000     .0511514    .1244481
+  landlocked |   .1015179   .0300242     3.38   0.001     .0426617     .160374
+         fta |   .0221389   .0130805     1.69   0.091    -.0035026    .0477805
+       col45 |  -.1460597   .0585523    -2.49   0.013    -.2608394   -.0312801
+ comlang_off |   .0096715   .0143854     0.67   0.501    -.0185281     .037871
+       _cons |   1.127909   .1468259     7.68   0.000     .8400877    1.415731
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost `controls' using exhibit/table5_es.xls, se bracket coef
+> astr bdec(3) adjr2 append
+exhibit/table5_es.xls
+dir : seeout
+
+. 
+. 
+. ********************************************************
+. * Table 6: Regressions with two procedural costs - Spain
+. ********************************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lh adminday transitday `controls' if eu27!=1, a(prodmode) cluster(cty_cn
+> 2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =     347.45
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3686
+                                                  Adj R-squared   =     0.2731
+                                                  Root MSE        =     0.7087
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |  -.0029767   .0005197    -5.73   0.000    -.0039955    -.001958
+  transitday |  -.0052935   .0014831    -3.57   0.000    -.0082008   -.0023862
+        lgdp |   .1361512    .003691    36.89   0.000     .1289158    .1433866
+      lgdppc |   .0136829   .0051287     2.67   0.008     .0036292    .0237366
+   ldistwces |  -.1952894   .0180557   -10.82   0.000    -.2306838   -.1598949
+      island |    .028311   .0188106     1.51   0.132    -.0085632    .0651852
+  landlocked |  -.0180358   .0208051    -0.87   0.386    -.0588198    .0227482
+         fta |   .1368758   .0173311     7.90   0.000     .1029017    .1708498
+       col45 |   .2967345   .0391863     7.57   0.000     .2199178    .3735511
+ comlang_off |   .1776568    .013951    12.73   0.000     .1503088    .2050049
+       _cons |  -1.259609   .1450599    -8.68   0.000    -1.543969   -.9752496
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_es.xls, s
+> e bracket coefastr bdec(3) adjr2 replace
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lnh adminday transitday `controls' if eu27!=1, a(prodmode) cluster(cty_c
+> n2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =     115.88
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3428
+                                                  Adj R-squared   =     0.2435
+                                                  Root MSE        =     0.4506
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |  -.0011045    .000337    -3.28   0.001     -.001765   -.0004439
+  transitday |  -.0018721   .0009456    -1.98   0.048    -.0037258   -.0000184
+        lgdp |    .072388   .0028036    25.82   0.000     .0668921    .0778838
+      lgdppc |   .0016764   .0033423     0.50   0.616    -.0048756    .0082284
+   ldistwces |  -.1171105   .0107662   -10.88   0.000    -.1382153   -.0960056
+      island |    .013071    .012407     1.05   0.292    -.0112504    .0373924
+  landlocked |   .0187971   .0179722     1.05   0.296    -.0164337    .0540278
+         fta |   .0361116   .0119813     3.01   0.003     .0126246    .0595985
+       col45 |    .176358   .0246339     7.16   0.000     .1280683    .2246478
+ comlang_off |    .069988   .0093793     7.46   0.000     .0516019    .0883741
+       _cons |  -.6521001   .0917365    -7.11   0.000    -.8319304   -.4722698
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_es.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lq adminday transitday `controls' if eu27!=1, a(prodmode) cluster(cty_cn
+> 2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =      69.07
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7373
+                                                  Adj R-squared   =     0.6975
+                                                  Root MSE        =     1.2866
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |   .0042612   .0009699     4.39   0.000     .0023599    .0061625
+  transitday |     .00522   .0024262     2.15   0.031     .0004639     .009976
+        lgdp |   .0938543   .0053466    17.55   0.000     .0833734    .1043351
+      lgdppc |  -.0711693   .0086393    -8.24   0.000    -.0881049   -.0542337
+   ldistwces |  -.1397709   .0180555    -7.74   0.000     -.175165   -.1043769
+      island |  -.1566367   .0250015    -6.27   0.000    -.2056469   -.1076266
+  landlocked |  -.2355773   .0426727    -5.52   0.000    -.3192283   -.1519263
+         fta |  -.0510296   .0215016    -2.37   0.018    -.0931789   -.0088802
+       col45 |   .1598176   .0821354     1.95   0.052    -.0011917    .3208269
+ comlang_off |   -.052764   .0195253    -2.70   0.007    -.0910392   -.0144887
+       _cons |   6.241536   .1704882    36.61   0.000      5.90733    6.575743
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_es.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lp adminday transitday `controls' if eu27!=1, a(prodmode) cluster(cty_cn
+> 2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =      43.30
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7710
+                                                  Adj R-squared   =     0.7364
+                                                  Root MSE        =     0.9638
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    adminday |   .0006905   .0008026     0.86   0.390    -.0008829    .0022638
+  transitday |   .0024953   .0019964     1.25   0.211    -.0014182    .0064089
+        lgdp |   .0006862   .0037861     0.18   0.856    -.0067357     .008108
+      lgdppc |   .0798087   .0062715    12.73   0.000     .0675148    .0921026
+   ldistwces |   .0625438   .0111935     5.59   0.000     .0406013    .0844863
+      island |   .0897897   .0190085     4.72   0.000     .0525274    .1270519
+  landlocked |   .1120656   .0324722     3.45   0.001     .0484107    .1757205
+         fta |   .0166895   .0130188     1.28   0.200    -.0088312    .0422102
+       col45 |  -.1767572   .0608584    -2.90   0.004    -.2960573   -.0574571
+ comlang_off |    .030047   .0137579     2.18   0.029     .0030776    .0570165
+       _cons |   1.442846   .1023055    14.10   0.000     1.242297    1.643395
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 adminday transitday `controls' using exhibit/table6_es.xls, s
+> e bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lh ladmincost ltransitcost `controls' if eu27!=1, a(prodmode) cluster(ct
+> y_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =     331.75
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3677
+                                                  Adj R-squared   =     0.2721
+                                                  Root MSE        =     0.7092
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |  -.0135932   .0115739    -1.17   0.240    -.0362814    .0090949
+ltransitcost |  -.0636811   .0128394    -4.96   0.000      -.08885   -.0385122
+        lgdp |   .1398299   .0037319    37.47   0.000     .1325144    .1471455
+      lgdppc |   .0255087   .0052136     4.89   0.000     .0152885    .0357289
+   ldistwces |  -.2037512   .0175007   -11.64   0.000    -.2380577   -.1694448
+      island |   .0417044   .0186354     2.24   0.025     .0051736    .0782352
+  landlocked |  -.0076413   .0203437    -0.38   0.707    -.0475209    .0322382
+         fta |   .1398137   .0178597     7.83   0.000     .1048034    .1748241
+       col45 |   .2065505   .0394013     5.24   0.000     .1293126    .2837885
+ comlang_off |   .2058734   .0147923    13.92   0.000     .1768762    .2348706
+       _cons |  -.9726162   .1935886    -5.02   0.000    -1.352106   -.5931261
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_es.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lnh ladmincost ltransitcost `controls' if eu27!=1, a(prodmode) cluster(c
+> ty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =     115.75
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3427
+                                                  Adj R-squared   =     0.2434
+                                                  Root MSE        =     0.4507
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+         lnh |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |   .0143616   .0074801     1.92   0.055    -.0003015    .0290248
+ltransitcost |  -.0330156   .0081484    -4.05   0.000    -.0489889   -.0170424
+        lgdp |   .0730227   .0027628    26.43   0.000     .0676068    .0784387
+      lgdppc |   .0093115   .0031482     2.96   0.003     .0031401    .0154829
+   ldistwces |  -.1155657   .0105529   -10.95   0.000    -.1362525   -.0948789
+      island |   .0166885   .0124701     1.34   0.181    -.0077566    .0411336
+  landlocked |   .0329399    .016816     1.96   0.050    -.0000244    .0659041
+         fta |    .040618   .0125413     3.24   0.001     .0160334    .0652026
+       col45 |   .1511977   .0247722     6.10   0.000     .1026369    .1997584
+ comlang_off |   .0732238   .0088173     8.30   0.000     .0559393    .0905084
+       _cons |  -.6494209   .1291336    -5.03   0.000    -.9025605   -.3962813
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_es.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lq ladmincost ltransitcost `controls' if eu27!=1, a(prodmode) cluster(ct
+> y_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =      61.78
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7371
+                                                  Adj R-squared   =     0.6973
+                                                  Root MSE        =     1.2871
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lq |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |    .096982   .0169583     5.72   0.000     .0637388    .1302253
+ltransitcost |   -.019095   .0195456    -0.98   0.329      -.05741    .0192201
+        lgdp |   .0882394   .0054043    16.33   0.000     .0776454    .0988334
+      lgdppc |   -.073783   .0084383    -8.74   0.000    -.0903244   -.0572416
+   ldistwces |  -.1153227   .0187913    -6.14   0.000    -.1521591   -.0784863
+      island |   -.187866   .0254615    -7.38   0.000     -.237778    -.137954
+  landlocked |  -.1650679   .0414347    -3.98   0.000     -.246292   -.0838437
+         fta |  -.0496351   .0210686    -2.36   0.019    -.0909357   -.0083344
+       col45 |   .3168718    .080348     3.94   0.000     .1593662    .4743773
+ comlang_off |  -.0923564   .0205777    -4.49   0.000    -.1326946   -.0520182
+       _cons |    5.84718    .222296    26.30   0.000     5.411414    6.282945
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_es.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+. areg lp ladmincost ltransitcost `controls' if eu27!=1, a(prodmode) cluster(ct
+> y_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  10,   7238) =      44.37
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.7711
+                                                  Adj R-squared   =     0.7365
+                                                  Root MSE        =     0.9635
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lp |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  ladmincost |  -.0233383   .0122527    -1.90   0.057    -.0473572    .0006806
+ltransitcost |   .0595841   .0122213     4.88   0.000     .0356267    .0835415
+        lgdp |   -.000347   .0037842    -0.09   0.927    -.0077651    .0070712
+      lgdppc |    .071794   .0059556    12.05   0.000     .0601192    .0834687
+   ldistwces |   .0611664   .0113869     5.37   0.000     .0388448     .083488
+      island |   .0910467   .0189746     4.80   0.000     .0538509    .1282425
+  landlocked |   .0773766   .0300895     2.57   0.010     .0183923    .1363609
+         fta |   .0149306   .0128544     1.16   0.245    -.0102679     .040129
+       col45 |  -.1636288   .0584761    -2.80   0.005     -.278259   -.0489986
+ comlang_off |   .0200148   .0146611     1.37   0.172    -.0087253    .0487549
+       _cons |   1.330862   .1398518     9.52   0.000     1.056712    1.605012
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 ladmincost ltransitcost `controls' using exhibit/table6_es.xl
+> s, se bracket coefastr bdec(3) adjr2 append
+exhibit/table6_es.xls
+dir : seeout
+
+.         
+. 
+. * define bec groups
+. gen byte food = (bec>=111 & bec<=122)
+
+. gen byte ind = (bec==210 | bec==220)
+
+. gen byte captran = (bec==410 | bec==510 | bec==521 | bec==522)
+
+. gen byte parts = (bec==420 | bec==530)
+
+. gen byte dur = bec==610
+
+. gen byte sdur = bec==620
+
+. gen byte ndur = bec==630
+
+. 
+. * interactions with bec groups
+. foreach v of varlist food ind captran parts dur sdur ndur {
+  2.         gen day_`v' = day * `v'
+  3.         gen lcost_`v' = lcost * `v'
+  4. }
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+(10596 missing values generated)
+
+. 
+. *********************************************
+. * Table 7: Product-specific estimates - Spain
+. *********************************************
+. local controls lgdp lgdppc ldistwces island landlocked fta col45 comlang_off
+
+. areg lx day_f day_i day_c day_p day_d day_s day_n `controls' if eu27!=1, a(pr
+> odmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =     196.99
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4197
+                                                  Adj R-squared   =     0.3320
+                                                  Root MSE        =     1.5029
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |   -.001901   .0019429    -0.98   0.328    -.0057097    .0019078
+     day_ind |  -.0000295   .0009418    -0.03   0.975    -.0018757    .0018168
+ day_captran |   .0045077   .0015776     2.86   0.004     .0014151    .0076003
+   day_parts |   .0011473   .0015443     0.74   0.458      -.00188    .0041747
+     day_dur |  -.0016288   .0023554    -0.69   0.489    -.0062461    .0029885
+    day_sdur |   .0001545   .0019937     0.08   0.938    -.0037537    .0040626
+    day_ndur |  -.0014788   .0021792    -0.68   0.497    -.0057506     .002793
+        lgdp |   .3033611   .0078397    38.70   0.000      .287993    .3187293
+      lgdppc |   .0234491   .0109143     2.15   0.032     .0020538    .0448443
+   ldistwces |  -.3900482   .0255566   -15.26   0.000    -.4401465   -.3399499
+      island |  -.0260623   .0389021    -0.67   0.503    -.1023218    .0501973
+  landlocked |  -.1213443   .0420167    -2.89   0.004    -.2037093   -.0389794
+         fta |   .1389933   .0356986     3.89   0.000     .0690136    .2089731
+       col45 |   .4593168   .0884368     5.19   0.000     .2859549    .6326788
+ comlang_off |   .2254271   .0267384     8.43   0.000     .1730121    .2778421
+       _cons |   5.774244   .2402422    24.04   0.000       5.3033    6.245189
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 replace
+exhibit/table7_es.xls
+dir : seeout
+
+. areg ln day_f day_i day_c day_p day_d day_s day_n `controls' if eu27!=1, a(pr
+> odmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =     185.91
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3932
+                                                  Adj R-squared   =     0.3015
+                                                  Root MSE        =     1.0101
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |  -.0059085   .0015091    -3.92   0.000    -.0088668   -.0029501
+     day_ind |  -.0053929    .000646    -8.35   0.000    -.0066593   -.0041265
+ day_captran |  -.0017769   .0009686    -1.83   0.067    -.0036757    .0001219
+   day_parts |  -.0062855   .0012453    -5.05   0.000    -.0087267   -.0038443
+     day_dur |   -.007011   .0016319    -4.30   0.000      -.01021   -.0038119
+    day_sdur |  -.0043731   .0018538    -2.36   0.018     -.008007   -.0007391
+    day_ndur |  -.0062538   .0015249    -4.10   0.000     -.009243   -.0032645
+        lgdp |    .209088   .0059972    34.86   0.000     .1973318    .2208442
+      lgdppc |   .0157683   .0078726     2.00   0.045     .0003358    .0312008
+   ldistwces |   -.316431    .027212   -11.63   0.000    -.3697746   -.2630875
+      island |   .0426254   .0293804     1.45   0.147    -.0149688    .1002195
+  landlocked |  -.0102873   .0312778    -0.33   0.742     -.071601    .0510263
+         fta |   .1698247   .0276035     6.15   0.000     .1157139    .2239356
+       col45 |   .4722071   .0604931     7.81   0.000      .353623    .5907912
+ comlang_off |   .2536125   .0210024    12.08   0.000     .2124417    .2947833
+       _cons |  -1.898073   .2238611    -8.48   0.000    -2.336907    -1.45924
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_es.xls
+dir : seeout
+
+. areg lv day_f day_i day_c day_p day_d day_s day_n `controls' if eu27!=1, a(pr
+> odmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =      71.65
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4556
+                                                  Adj R-squared   =     0.3733
+                                                  Root MSE        =     0.9303
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    day_food |   .0040075   .0010409     3.85   0.000      .001967     .006048
+     day_ind |   .0053634   .0005962     9.00   0.000     .0041946    .0065322
+ day_captran |   .0062846   .0011776     5.34   0.000     .0039762     .008593
+   day_parts |   .0074329   .0011198     6.64   0.000     .0052377     .009628
+     day_dur |   .0053822   .0015388     3.50   0.000     .0023657    .0083987
+    day_sdur |   .0045275   .0008534     5.31   0.000     .0028546    .0062004
+    day_ndur |    .004775   .0012408     3.85   0.000     .0023427    .0072073
+        lgdp |   .0942731   .0040916    23.04   0.000     .0862524    .1022938
+      lgdppc |   .0076808   .0059047     1.30   0.193    -.0038942    .0192557
+   ldistwces |  -.0736172   .0142861    -5.15   0.000     -.101622   -.0456123
+      island |  -.0686876   .0181977    -3.77   0.000    -.1043604   -.0330149
+  landlocked |   -.111057   .0235351    -4.72   0.000    -.1571927   -.0649213
+         fta |  -.0308314   .0167231    -1.84   0.065    -.0636136    .0019508
+       col45 |  -.0128903   .0489494    -0.26   0.792    -.1088454    .0830648
+ comlang_off |  -.0281854   .0150311    -1.88   0.061    -.0576508      .00128
+       _cons |   7.672318   .1361689    56.34   0.000     7.405387    7.939249
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 day_f day_i day_c day_p day_d day_s day_n `controls' using ex
+> hibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_es.xls
+dir : seeout
+
+. areg lx lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =     198.76
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4197
+                                                  Adj R-squared   =     0.3320
+                                                  Root MSE        =     1.5029
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lx |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |   .0950721   .0639414     1.49   0.137    -.0302716    .2204159
+   lcost_ind |   -.082787   .0308741    -2.68   0.007    -.1433093   -.0222648
+lcost_capt~n |   .0626824   .0506022     1.24   0.215    -.0365127    .1618774
+ lcost_parts |   .0463192    .060375     0.77   0.443    -.0720333    .1646717
+   lcost_dur |  -.0408744   .0821519    -0.50   0.619     -.201916    .1201672
+  lcost_sdur |   .0241375   .1042638     0.23   0.817    -.1802499     .228525
+  lcost_ndur |  -.0308273    .072689    -0.42   0.672     -.173319    .1116645
+        lgdp |   .3031966   .0075946    39.92   0.000      .288309    .3180843
+      lgdppc |   .0209995   .0107491     1.95   0.051    -.0000719     .042071
+   ldistwces |  -.3909946   .0261929   -14.93   0.000    -.4423403   -.3396489
+      island |   -.029929   .0387767    -0.77   0.440    -.1059427    .0460847
+  landlocked |  -.1193065   .0457533    -2.61   0.009    -.2089963   -.0296168
+         fta |   .1350384   .0359706     3.75   0.000     .0645255    .2055513
+       col45 |   .4740053   .0873662     5.43   0.000     .3027421    .6452685
+ comlang_off |   .2304113   .0269049     8.56   0.000     .1776698    .2831528
+       _cons |   5.855284    .359689    16.28   0.000     5.150188    6.560379
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_es.xls
+dir : seeout
+
+. areg ln lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =     186.52
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.3922
+                                                  Adj R-squared   =     0.3004
+                                                  Root MSE        =     1.0110
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          ln |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |  -.0351659   .0483792    -0.73   0.467    -.1300033    .0596714
+   lcost_ind |  -.1619983   .0232888    -6.96   0.000    -.2076512   -.1163454
+lcost_capt~n |  -.0753018   .0331353    -2.27   0.023    -.1402566   -.0103469
+ lcost_parts |  -.0650176   .0419213    -1.55   0.121    -.1471956    .0171603
+   lcost_dur |  -.1077369   .0559826    -1.92   0.054    -.2174791    .0020053
+  lcost_sdur |  -.0776928   .0854912    -0.91   0.363    -.2452805    .0898949
+  lcost_ndur |  -.1472737   .0511654    -2.88   0.004    -.2475728   -.0469745
+        lgdp |   .2141502   .0059605    35.93   0.000     .2024658    .2258346
+      lgdppc |   .0289838    .007807     3.71   0.000     .0136798    .0442877
+   ldistwces |   -.328755   .0280203   -11.73   0.000    -.3836831    -.273827
+      island |   .0615354   .0293832     2.09   0.036     .0039357    .1191351
+  landlocked |    .002375   .0326236     0.07   0.942    -.0615767    .0663268
+         fta |   .1730427   .0284748     6.08   0.000     .1172238    .2288616
+       col45 |   .3380767   .0602061     5.62   0.000     .2200553    .4560981
+ comlang_off |   .2879556   .0220064    13.09   0.000     .2448167    .3310945
+       _cons |   -1.39096   .3174724    -4.38   0.000    -2.013298   -.7686213
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_es.xls
+dir : seeout
+
+. areg lv lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `controls' if
+>  eu27!=1, a(prodmode) cluster(cty_cn2)
+
+Linear regression, absorbing indicators           Number of obs   =     120656
+                                                  F(  15,   7238) =      54.27
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4538
+                                                  Adj R-squared   =     0.3712
+                                                  Root MSE        =     0.9319
+
+                             (Std. Err. adjusted for 7239 clusters in cty_cn2)
+------------------------------------------------------------------------------
+             |               Robust
+          lv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+  lcost_food |   .1302381   .0329088     3.96   0.000     .0657273    .1947489
+   lcost_ind |   .0792113   .0182161     4.35   0.000     .0435023    .1149203
+lcost_capt~n |   .1379841    .043242     3.19   0.001     .0532172     .222751
+ lcost_parts |   .1113368   .0389885     2.86   0.004     .0349079    .1877658
+   lcost_dur |   .0668625   .0513656     1.30   0.193    -.0338291    .1675541
+  lcost_sdur |   .1018304   .0304932     3.34   0.001     .0420548    .1616059
+  lcost_ndur |   .1164464   .0399746     2.91   0.004     .0380845    .1948082
+        lgdp |   .0890464   .0044646    19.95   0.000     .0802946    .0977983
+      lgdppc |  -.0079842   .0063425    -1.26   0.208    -.0204173    .0044489
+   ldistwces |  -.0622396   .0149266    -4.17   0.000    -.0915001   -.0329791
+      island |  -.0914644   .0186188    -4.91   0.000    -.1279626   -.0549662
+  landlocked |  -.1216816   .0279507    -4.35   0.000     -.176473   -.0668901
+         fta |  -.0380043   .0166781    -2.28   0.023    -.0706982   -.0053104
+       col45 |   .1359285   .0487855     2.79   0.005     .0402948    .2315623
+ comlang_off |  -.0575443   .0169638    -3.39   0.001    -.0907984   -.0242902
+       _cons |   7.246244    .192605    37.62   0.000     6.868682    7.623806
+-------------+----------------------------------------------------------------
+    prodmode |   absorbed                                   (15830 categories)
+
+.         outreg2 lcost_f lcost_i lcost_c lcost_p lcost_d lcost_s lcost_n `cont
+> rols' using exhibit/table7_es.xls, se bracket coefastr bdec(3) adjr2 append
+exhibit/table7_es.xls
+dir : seeout
+
+. 
+. 
+. 
+end of do-file

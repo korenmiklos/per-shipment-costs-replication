@@ -1,0 +1,60 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     Special Edition                  College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+6-user Stata network perpetual license:
+       Serial number:  501306214221
+         Licensed to:  Miklos Koren
+                       Central European University
+
+Notes:
+      1.  (-v# option or -set maxvar-) 5000 maximum variables
+      2.  Command line editing disabled
+      3.  Stata running in batch mode
+
+Note:  Your site can add messages to the introduction by editing the file
+       stata.msg in the directory where Stata is installed.
+
+. do code/01_install_packages 
+
+. /*
+> The programs and data files replicate the descriptive statistics and the esti
+> mation results in the paper
+> 
+>         Hornok, Cec’lia and Mikl—s Koren, forthcoming. ÒPer-Shipment Costs an
+> d the Lumpiness of International Trade.Ó Review of Economics and Statistics.
+> 
+> Please cite the above paper when using these programs.
+> 
+> For your convenience, we reproduce some of the data resources here. Although 
+> all of these are widely available macroeconomic data, please check with the d
+> ata vendors whether you have the right to use them.
+> 
+> Our software and data are provided AS IS, and we assume no liability for thei
+> r use or misuse. 
+> 
+> If you have any questions about replication, please contact Mikl—s Koren at k
+> orenm@ceu.hu.
+> */
+. 
+. *** Installs the necessary Stata packages.
+. 
+. ssc install wbopendata
+checking wbopendata consistency and verifying not already installed...
+installing into /home/koren/ado/plus/...
+installation complete.
+
+. ssc install outreg2
+checking outreg2 consistency and verifying not already installed...
+installing into /home/koren/ado/plus/...
+installation complete.
+
+. 
+end of do-file

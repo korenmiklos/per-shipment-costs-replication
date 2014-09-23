@@ -1,0 +1,758 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-Strict.dtd">
+
+<html id="ctl00_root" xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head">
+
+<script type="text/javascript" src="/static/js/analytics.js" ></script>
+<link type="text/css" rel="stylesheet" href="/static/css/banner-styles.css"/>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><meta http-equiv="Content-Script" content="text/javascript" />
+<title>Trading Across Borders  in  Malawi details - Doing Business - The World Bank Group</title>
+
+    
+    <!-- Styles and javascripts -->
+ 
+<meta name="language" content="English" /><meta name="siteId" content="DB" /><meta name="economyName" content="Malawi" /><link rel="stylesheet" type="text/css" media="screen" href="/web/20100710033417cs_/http://www.doingbusiness.org/styles/master.css" /><link rel="stylesheet" type="text/css" media="print" href="/web/20100710033417cs_/http://www.doingbusiness.org/styles/masterPrint.css" /><link rel="stylesheet" type="text/css" media="screen" href="/web/20100710033417cs_/http://www.doingbusiness.org/styles/exploretopics.css" /><link rel="stylesheet" type="text/css" media="print" href="/web/20100710033417cs_/http://www.doingbusiness.org/styles/exploretopicsPrint.css" /><script type="text/javascript" src="/web/20100710033417js_/http://www.doingbusiness.org/scripts/master.js"></script><script type="text/javascript" src="/web/20100710033417js_/http://www.doingbusiness.org/scripts/prototype.js"></script><script type="text/javascript" src="/web/20100710033417js_/http://www.doingbusiness.org/scripts/ClassManagement.js"></script><script type="text/javascript" src="/web/20100710033417js_/http://www.doingbusiness.org/scripts/runOmniture.js"></script></head>
+<body>
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script> if (window.archive_analytics) { window.archive_analytics.values['server_name']="wwwb-app1.us.archive.org";}; </script>
+
+<script type="text/javascript" src="/static/js/disclaim-element.js" ></script>
+<script type="text/javascript" src="/static/js/graph-calc.js" ></script>
+<script type="text/javascript" src="/static/jflot/jquery.min.js" ></script>
+<script type="text/javascript">
+//<![CDATA[
+var firstDate = 820454400000;
+var lastDate = 1420070399999;
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http:\/\/www.doingbusiness.org\/ExploreTopics\/TradingAcrossBorders\/Details.aspx?economyid=118";
+
+var curYear = -1;
+var curMonth = -1;
+var yearCount = 18;
+var firstYear = 1996;
+var imgWidth = 475;
+var yearImgWidth = 25;
+var monthImgWidth = 2;
+var trackerVal = "none";
+var displayDay = "10";
+var displayMonth = "Jul";
+var displayYear = "2010";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function showTrackers(val) {
+	if(val == trackerVal) {
+		return;
+	}
+	if(val == "inline") {
+		document.getElementById("displayYearEl").style.color = "#ec008c";
+		document.getElementById("displayMonthEl").style.color = "#ec008c";
+		document.getElementById("displayDayEl").style.color = "#ec008c";		
+	} else {
+		document.getElementById("displayYearEl").innerHTML = displayYear;
+		document.getElementById("displayYearEl").style.color = "#ff0";
+		document.getElementById("displayMonthEl").innerHTML = displayMonth;
+		document.getElementById("displayMonthEl").style.color = "#ff0";
+		document.getElementById("displayDayEl").innerHTML = displayDay;
+		document.getElementById("displayDayEl").style.color = "#ff0";
+	}
+   document.getElementById("wbMouseTrackYearImg").style.display = val;
+   document.getElementById("wbMouseTrackMonthImg").style.display = val;
+   trackerVal = val;
+}
+function getElementX2(obj) {
+	var thing = jQuery(obj);
+	if((thing == undefined) 
+			|| (typeof thing == "undefined") 
+			|| (typeof thing.offset == "undefined")) {
+		return getElementX(obj);
+	}
+	return Math.round(thing.offset().left);
+}
+function trackMouseMove(event,element) {
+
+   var eventX = getEventX(event);
+   var elementX = getElementX2(element);
+   var xOff = eventX - elementX;
+	if(xOff < 0) {
+		xOff = 0;
+	} else if(xOff > imgWidth) {
+		xOff = imgWidth;
+	}
+   var monthOff = xOff % yearImgWidth;
+
+   var year = Math.floor(xOff / yearImgWidth);
+	var yearStart = year * yearImgWidth;
+   var monthOfYear = Math.floor(monthOff / monthImgWidth);
+   if(monthOfYear > 11) {
+       monthOfYear = 11;
+   }
+   // 1 extra border pixel at the left edge of the year:
+   var month = (year * 12) + monthOfYear;
+   var day = 1;
+	if(monthOff % 2 == 1) {
+		day = 15;
+	}
+	var dateString = 
+		zeroPad(year + firstYear) + 
+		zeroPad(monthOfYear+1,2) +
+		zeroPad(day,2) + "000000";
+
+	var monthString = prettyMonths[monthOfYear];
+	document.getElementById("displayYearEl").innerHTML = year + 1996;
+	document.getElementById("displayMonthEl").innerHTML = monthString;
+	// looks too jarring when it changes..
+	//document.getElementById("displayDayEl").innerHTML = zeroPad(day,2);
+
+	var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+	document.getElementById('wm-graph-anchor').href = url;
+
+   //document.getElementById("wmtbURL").value="evX("+eventX+") elX("+elementX+") xO("+xOff+") y("+year+") m("+month+") monthOff("+monthOff+") DS("+dateString+") Moy("+monthOfYear+") ms("+monthString+")";
+   if(curYear != year) {
+       var yrOff = year * yearImgWidth;
+       document.getElementById("wbMouseTrackYearImg").style.left = yrOff + "px";
+       curYear = year;
+   }
+   if(curMonth != month) {
+       var mtOff = year + (month * monthImgWidth) + 1;
+       document.getElementById("wbMouseTrackMonthImg").style.left = mtOff + "px";
+       curMonth = month;
+   }
+}
+//]]>
+</script>
+
+<style type="text/css">body{margin-top:0!important;padding-top:0!important;min-width:800px!important;}#wm-ipp a:hover{text-decoration:underline!important;}</style>
+<div id="wm-ipp" lang="en" class="__wb_banner_div" style="display:none; position:relative;padding:0 5px;min-height:70px;min-width:800px">
+
+
+<div id="wm-ipp-inside" class="__wb_banner_div" style="position:fixed;padding:0!important;margin:0!important;width:97%;min-width:780px;border:5px solid #000;border-top:none;background-image:url(/static/images/toolbar/wm_tb_bk_trns.png);text-align:center;-moz-box-shadow:1px 1px 3px #333;-webkit-box-shadow:1px 1px 3px #333;box-shadow:1px 1px 3px #333;font-size:11px!important;font-family:'Lucida Grande','Arial',sans-serif!important;">
+   <table style="border-collapse:collapse;margin:0;padding:0;width:100%;"><tbody><tr>
+   <td style="padding:10px;vertical-align:top;min-width:110px;">
+   <a href="/web/" title="Wayback Machine home page" style="background-color:transparent;border:none;"><img src="/static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0"/></a>
+   </td>
+   <td style="padding:0!important;text-align:center;vertical-align:top;width:100%;">
+
+       <table style="border-collapse:collapse;margin:0 auto;padding:0;width:570px;"><tbody><tr>
+       <td style="padding:3px 0;" colspan="2">
+       <form target="_top" method="get" action="/web/form-submit.jsp" name="wmtb" id="wmtb" style="margin:0!important;padding:0!important;"><input type="text" name="url" id="wmtbURL" value="http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" style="width:400px;font-size:11px;font-family:'Lucida Grande','Arial',sans-serif;" onfocus="javascript:this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20100710033417" /><input type="submit" value="Go" style="font-size:11px;font-family:'Lucida Grande','Arial',sans-serif;margin-left:5px;width: inherit !important" /><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td style="vertical-align:bottom;padding:5px 0 0 0!important;" rowspan="2">
+           <table style="border-collapse:collapse;width:110px;color:#99a;font-family:'Helvetica','Lucida Grande','Arial',sans-serif;"><tbody>
+			
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr style="width:110px;height:16px;font-size:10px!important;">
+           	<td style="padding-right:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="/web/20100505122919/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="5 May 2010"><strong>MAY</strong></a>
+		                
+               </td>
+               <td id="displayMonthEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight:bold;text-transform:uppercase;width:34px;height:15px;padding-top:1px;text-align:center;" title="You are here: 3:34:17 Jul 10, 2010">JUL</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="/web/20100824184240/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="24 Aug 2010"><strong>AUG</strong></a>
+		                
+               </td>
+           </tr>
+
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr>
+               <td style="padding-right:9px;white-space:nowrap;overflow:visible;text-align:right!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="/web/20100614184445/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" title="18:44:45 Jun 14, 2010" style="background-color:transparent;border:none;"><img src="/static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a>
+		                
+               </td>
+               <td id="displayDayEl" style="background:#000;color:#ff0;width:34px;height:24px;padding:2px 0 0 0;text-align:center;font-size:24px;font-weight: bold;" title="You are here: 3:34:17 Jul 10, 2010">10</td>
+				<td style="padding-left:9px;white-space:nowrap;overflow:visible;text-align:left!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="/web/20100712052625/http://www.doingbusiness.org/exploretopics/tradingacrossborders/Details.aspx?economyid=118" title="5:26:25 Jul 12, 2010" style="background-color:transparent;border:none;"><img src="/static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0"/></a>
+		                
+			    </td>
+           </tr>
+
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr style="width:110px;height:13px;font-size:9px!important;">
+				<td style="padding-right:9px;font-size:11px!important;font-weight: bold;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="/web/20081229073909/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="29 Dec 2008"><strong>2008</strong></a>
+		                
+               </td>
+               <td id="displayYearEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight: bold;padding-top:1px;width:34px;height:13px;text-align:center;" title="You are here: 3:34:17 Jul 10, 2010">2010</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight: bold;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+                       2011
+                       
+				</td>
+           </tr>
+           </tbody></table>
+       </td>
+
+       </tr>
+       <tr>
+       <td style="vertical-align:middle;padding:0!important;">
+           <a href="/web/20100710033417*/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118" style="color:#33f;font-size:11px;font-weight:bold;background-color:transparent;border:none;" title="See a list of every capture for this URL"><strong>20 captures</strong></a>
+           <div class="__wb_banner_div" style="margin:0!important;padding:0!important;color:#666;font-size:9px;padding-top:2px!important;white-space:nowrap;" title="Timespan for captures of this URL">15 Apr 06 - 9 Oct 10</div>
+       </td>
+       <td style="padding:0!important;">
+       <a style="position:relative; white-space:nowrap; width:475px;height:27px;" href="" id="wm-graph-anchor">
+       <div class="__wb_banner_div" id="wm-ipp-sparkline" style="position:relative; white-space:nowrap; width:475px;height:27px;background-color:#fff;cursor:pointer;border-right:1px solid #ccc;" title="Explore captures for this URL">
+			<img id="sparklineImgId" style="position:absolute; z-index:9012; top:0px; left:0px;"
+				onmouseover="showTrackers('inline');" 
+				onmouseout="showTrackers('none');"
+				onmousemove="trackMouseMove(event,this)"
+				alt="sparklines"
+				width="475"
+				height="27"
+				border="0"
+				src="/web/jsp/graph.jsp?graphdata=475_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:-1:000000000000_2005:-1:000000000000_2006:-1:000100020100_2007:-1:010010100100_2008:-1:000000000001_2009:-1:000000001000_2010:6:100112220100_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000000000_2014:-1:000000000000"></img>
+			<img id="wbMouseTrackYearImg" 
+				style="display:none; position:absolute; z-index:9010;"
+				width="25" 
+				height="27"
+				border="0"
+				src="/static/images/toolbar/transp-yellow-pixel.png"></img>
+			<img id="wbMouseTrackMonthImg"
+				style="display:none; position:absolute; z-index:9011; " 
+				width="2"
+				height="27" 
+				border="0"
+				src="/static/images/toolbar/transp-red-pixel.png"></img>
+       </div>
+		</a>
+
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td style="text-align:right;padding:5px;width:65px;font-size:11px!important;">
+       <a href="javascript:;" onclick="document.getElementById('wm-ipp').style.display='none';" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_close.png) no-repeat 100% 0;color:#33f;font-family:'Lucida Grande','Arial',sans-serif;margin-bottom:23px;background-color:transparent;border:none;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_help.png) no-repeat 100% 0;color:#33f;font-family:'Lucida Grande','Arial',sans-serif;background-color:transparent;border:none;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+
+</div>
+</div>
+<script type="text/javascript">
+ var wmDisclaimBanner = document.getElementById("wm-ipp");
+ if(wmDisclaimBanner != null) {
+   disclaimElement(wmDisclaimBanner);
+ }
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+<div id="ctl00_headerMain">
+    <!-- Header -->
+    <div id='header'>
+       
+        <!-- Languages Menu -->
+        <ul id="languages"><li key="false"><a href="/web/20100710033417/http://arabic.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">العربيه</a></li><li key="false"><a href="/web/20100710033417/http://chinese.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">中文</a></li><li key="false"><a href="/web/20100710033417/http://russian.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">Русский</a></li><li key="false"><a href="/web/20100710033417/http://portugues.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">Português</a></li><li key="false"><a href="/web/20100710033417/http://francais.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">Français</a></li><li key="false"><a href="/web/20100710033417/http://espanol.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">Español</a></li><li key="false"><a href="/web/20100710033417/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118">English</a></li></ul>
+        
+        <div id='headerTop'>    <!-- Top Header Section-->
+            <!-- Logo -->                                   
+            <a id='masterHomelink' href='/web/20100710033417/http://www.doingbusiness.org/' title='Doing Business - Home'>
+            <img src="/web/20100710033417im_/http://www.doingbusiness.org/images/home_top_Image_1033.gif" id="ctl00_hometopImage" alt="Doing Business Database" /></a> 
+            <!-- Overview Section -->
+            <div id='overview'>
+                <h1>The Doing Business project...</h1>
+
+provides objective measures of business regulations and their enforcement across 183 economies and selected cities at the subnational and regional level. <a href="/web/20100710033417/http://www.doingbusiness.org/documents/DB10_About.pdf"><strong>Learn more...</strong></a>
+            </div>
+            <!-- Topic - Economy navigation section -->
+            <div id='DNav'>
+                <ul>
+                    <li>
+                        <label class='bullet-Blue'>
+                            <select onchange="exploreTopic(this);" id="TopicDropDown1">
+	<option selected="selected" value="0">select a topic</option>
+	<option value="1">Starting a Business</option>
+	<option value="2">Dealing with Construction Permits</option>
+	<option value="3">Employing Workers</option>
+	<option value="4">Registering Property</option>
+	<option value="5">Getting Credit</option>
+	<option value="6">Protecting Investors</option>
+	<option value="7">Paying Taxes</option>
+	<option value="8">Trading Across Borders</option>
+	<option value="9">Enforcing Contracts</option>
+	<option value="10">Closing a Business</option>
+
+</select>
+                        </label>
+                    </li>
+                    <li>
+                        <!-- Country Dropdown Control -->
+                        <label class='bullet-Blue'>
+                            <select onchange="exploreEconomy(this, 'ExploreEconomies');" id="EconomyDropDown1">
+	<option selected="selected" value="0">select an economy</option>
+	<option value="2">Afghanistan</option>
+	<option value="3">Albania</option>
+	<option value="4">Algeria</option>
+	<option value="7">Angola</option>
+	<option value="8">Antigua and Barbuda</option>
+	<option value="9">Argentina</option>
+	<option value="10">Armenia</option>
+	<option value="12">Australia</option>
+	<option value="13">Austria</option>
+	<option value="14">Azerbaijan</option>
+	<option value="15">Bahamas, the</option>
+	<option value="16">Bahrain</option>
+	<option value="17">Bangladesh</option>
+	<option value="19">Belarus</option>
+	<option value="20">Belgium</option>
+	<option value="21">Belize</option>
+	<option value="22">Benin</option>
+	<option value="24">Bhutan</option>
+	<option value="25">Bolivia</option>
+	<option value="26">Bosnia and Herzegovina</option>
+	<option value="27">Botswana</option>
+	<option value="28">Brazil</option>
+	<option value="29">Brunei Darussalam</option>
+	<option value="30">Bulgaria</option>
+	<option value="31">Burkina Faso</option>
+	<option value="32">Burundi</option>
+	<option value="33">Cambodia</option>
+	<option value="34">Cameroon</option>
+	<option value="35">Canada</option>
+	<option value="36">Cape Verde</option>
+	<option value="38">Central African Republic</option>
+	<option value="39">Chad</option>
+	<option value="41">Chile</option>
+	<option value="42">China</option>
+	<option value="46">Colombia</option>
+	<option value="47">Comoros</option>
+	<option value="48">Congo, Dem. Rep.</option>
+	<option value="49">Congo, Rep.</option>
+	<option value="50">Costa Rica</option>
+	<option value="51">C&#244;te d'Ivoire</option>
+	<option value="52">Croatia</option>
+	<option value="54">Cyprus</option>
+	<option value="55">Czech Republic</option>
+	<option value="56">Denmark</option>
+	<option value="57">Djibouti</option>
+	<option value="58">Dominica</option>
+	<option value="59">Dominican Republic</option>
+	<option value="60">Ecuador</option>
+	<option value="61">Egypt, Arab Rep.</option>
+	<option value="62">El Salvador</option>
+	<option value="63">Equatorial Guinea</option>
+	<option value="64">Eritrea</option>
+	<option value="65">Estonia</option>
+	<option value="66">Ethiopia</option>
+	<option value="68">Fiji</option>
+	<option value="69">Finland</option>
+	<option value="70">France</option>
+	<option value="72">Gabon</option>
+	<option value="73">Gambia, the</option>
+	<option value="74">Georgia</option>
+	<option value="75">Germany</option>
+	<option value="76">Ghana</option>
+	<option value="77">Greece</option>
+	<option value="79">Grenada</option>
+	<option value="81">Guatemala</option>
+	<option value="82">Guinea</option>
+	<option value="83">Guinea-Bissau</option>
+	<option value="84">Guyana</option>
+	<option value="85">Haiti</option>
+	<option value="86">Honduras</option>
+	<option value="43">Hong Kong, China</option>
+	<option value="87">Hungary</option>
+	<option value="88">Iceland</option>
+	<option value="89">India</option>
+	<option value="90">Indonesia</option>
+	<option value="91">Iran, Islamic Rep.</option>
+	<option value="92">Iraq</option>
+	<option value="93">Ireland</option>
+	<option value="95">Israel</option>
+	<option value="96">Italy</option>
+	<option value="97">Jamaica</option>
+	<option value="98">Japan</option>
+	<option value="99">Jordan</option>
+	<option value="100">Kazakhstan</option>
+	<option value="101">Kenya</option>
+	<option value="102">Kiribati</option>
+	<option value="104">Korea, Rep.</option>
+	<option value="375">Kosovo</option>
+	<option value="105">Kuwait</option>
+	<option value="106">Kyrgyz Republic</option>
+	<option value="107">Lao PDR</option>
+	<option value="108">Latvia</option>
+	<option value="109">Lebanon</option>
+	<option value="110">Lesotho</option>
+	<option value="111">Liberia</option>
+	<option value="114">Lithuania</option>
+	<option value="115">Luxembourg</option>
+	<option value="116">Macedonia, FYR</option>
+	<option value="117">Madagascar</option>
+	<option value="118">Malawi</option>
+	<option value="119">Malaysia</option>
+	<option value="120">Maldives</option>
+	<option value="121">Mali</option>
+	<option value="123">Marshall Islands</option>
+	<option value="124">Mauritania</option>
+	<option value="125">Mauritius</option>
+	<option value="127">Mexico</option>
+	<option value="128">Micronesia, Fed. Sts.</option>
+	<option value="129">Moldova</option>
+	<option value="131">Mongolia</option>
+	<option value="210">Montenegro</option>
+	<option value="132">Morocco</option>
+	<option value="133">Mozambique</option>
+	<option value="135">Namibia</option>
+	<option value="136">Nepal</option>
+	<option value="137">Netherlands</option>
+	<option value="140">New Zealand</option>
+	<option value="141">Nicaragua</option>
+	<option value="142">Niger</option>
+	<option value="143">Nigeria</option>
+	<option value="145">Norway</option>
+	<option value="146">Oman</option>
+	<option value="147">Pakistan</option>
+	<option value="148">Palau</option>
+	<option value="149">Panama</option>
+	<option value="150">Papua New Guinea</option>
+	<option value="151">Paraguay</option>
+	<option value="152">Peru</option>
+	<option value="153">Philippines</option>
+	<option value="154">Poland</option>
+	<option value="155">Portugal</option>
+	<option value="156">Puerto Rico</option>
+	<option value="157">Qatar</option>
+	<option value="158">Romania</option>
+	<option value="159">Russian Federation</option>
+	<option value="160">Rwanda</option>
+	<option value="161">Samoa</option>
+	<option value="162">S&#227;o Tom&#233; and Principe</option>
+	<option value="163">Saudi Arabia</option>
+	<option value="164">Senegal</option>
+	<option value="206">Serbia</option>
+	<option value="165">Seychelles</option>
+	<option value="166">Sierra Leone</option>
+	<option value="167">Singapore</option>
+	<option value="168">Slovak Republic</option>
+	<option value="169">Slovenia</option>
+	<option value="170">Solomon Islands</option>
+	<option value="172">South Africa</option>
+	<option value="173">Spain</option>
+	<option value="174">Sri Lanka</option>
+	<option value="175">St. Kitts and Nevis</option>
+	<option value="176">St. Lucia</option>
+	<option value="177">St. Vincent and the Grenadines</option>
+	<option value="178">Sudan</option>
+	<option value="179">Suriname</option>
+	<option value="180">Swaziland</option>
+	<option value="181">Sweden</option>
+	<option value="182">Switzerland</option>
+	<option value="183">Syrian Arab Republic</option>
+	<option value="45">Taiwan, China</option>
+	<option value="184">Tajikistan</option>
+	<option value="185">Tanzania</option>
+	<option value="186">Thailand</option>
+	<option value="209">Timor-Leste</option>
+	<option value="187">Togo</option>
+	<option value="188">Tonga</option>
+	<option value="189">Trinidad and Tobago</option>
+	<option value="190">Tunisia</option>
+	<option value="191">Turkey</option>
+	<option value="193">Uganda</option>
+	<option value="194">Ukraine</option>
+	<option value="195">United Arab Emirates</option>
+	<option value="196">United Kingdom</option>
+	<option value="197">United States</option>
+	<option value="198">Uruguay</option>
+	<option value="199">Uzbekistan</option>
+	<option value="200">Vanuatu</option>
+	<option value="201">Venezuela, R.B.</option>
+	<option value="202">Vietnam</option>
+	<option value="204">West Bank and Gaza</option>
+	<option value="205">Yemen, Rep.</option>
+	<option value="207">Zambia</option>
+	<option value="208">Zimbabwe</option>
+
+</select>
+                        </label>
+                    </li>
+                    <li>
+                        <a href='/web/20100710033417/http://www.doingbusiness.org/CustomQuery/' title='Get Full Data' class='bullet-Blue'>
+                            Historical Data
+                        </a> 
+                    </li>
+                </ul>
+            </div>
+            
+        </div>        <!-- End Top Header Section-->
+        
+        <!-- Middle Section -->
+        
+        
+        <div id='headerBottom'> <!-- Bottom Header Section -->
+        
+            <!-- Main Navigation Menu -->
+            
+                <!-- Default Navigation Menu -->
+                <ul class="hNavMenu"><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/">Home</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/economyrankings/">Rankings</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Downloads/">Downloads</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Reformers/">Reformers</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/MethodologySurveys/">Methodology</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Research/">Research</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Subnational/">Subnational Projects</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/LawLibrary/">Business Laws</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/LocalPartners/">Local Partners</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Media/Media.aspx">Media</a></li></ul>                
+             
+               
+            <!-- Seach Control -->
+            <div id="ctl00_searchbox">
+                <div id="Search">
+                <script type='text/javascript' language='javascript'>
+//this function adds the search parameter on search query
+// and redirects to the search site
+function Search(url){
+//add the parameter on the search query
+var searchText = document.getElementById('txtSearch');
+url += '&q=' + searchText.value;
+//redirect to the search url
+document.location = url;}
+//this function checks to see if an enter key was presssed when
+// the user is entering text in a text box
+function checkEnterKey(e,submitButtonName){
+var key;
+//if the browser is IE
+if (window.event)
+key = window.event.keyCode;
+//if its firefox, Opera, etc..
+else
+key = e.which;
+//if the keycode equals the code for the enter key
+if (key == 13){
+document.getElementById(submitButtonName).click();
+return false;}
+return true;}
+</script>
+<div id='search'><input type='text' id='txtSearch' value='search site' onfocus="this.value='';" onkeypress="return checkEnterKey(event,'btnSearch');" /><input type='button' id='btnSearch' value='Go' onclick="Search('/web/20100710033417/http://extsearch.worldbank.org/servlet/SiteSearchServlet?ed=rrudb');" /></div>
+                 </div>
+             </div>                
+        </div>      <!-- End Bottom Header Section -->
+    </div>
+</div>  <!-- End Header Main Section -->
+    
+    <!-- body content -->
+    
+    <!-- Body with a main and a right content sections -->
+    <div id='body' class='mr'>  
+    <!-- body Section -->                        
+           <div id='mainContent'><div class='section'><h1>Trading Across Borders  in  Malawi</h1> <span><p>This section covers the procedural requirements for domestic businesses in Malawi to export and import a standardized cargo of goods by ocean transport. Every official procedure for exporting and importing the goods is recorded along with the time and cost necessary for completion.</p>  <p>The country data appearing on this page was collected as part of the Doing Business project, which measures and compares regulations relevant to the life cycle of a small- to medium-sized domestic business in 183 economies. The most recent round of data collection for the project was completed in June 2009.</p>  <p>The tables below list the procedures necessary to import and export a standardized cargo of goods. The documents required to export and import the goods are also shown. </p>  <p><a href="/web/20100710033417/http://www.doingbusiness.org/ExploreTopics/TradingAcrossBorders/Details.aspx?economyid=118&amp;excel=true" target="exceldetails">Export to Excel</a> | <a href="/web/20100710033417/http://www.doingbusiness.org/LocalPartners/SearchResults.aspx?surveyid=40&amp;economyid=118">Local partners</a> | <a href="/web/20100710033417/http://www.doingbusiness.org/MethodologySurveys/TradingAcrossBorders.aspx">Methodology</a><br />  </p></span><br />
+<img alt="" src="/web/20100710033417im_/http://www.doingbusiness.org/images/bullets/arrow-blue.jpg" />&nbsp;&nbsp; View all <a href='/web/20100710033417/http://www.doingbusiness.org/ExploreEconomies/?economyid=118'>indicator data and topic details</a> for this economy.<br /></div></div><div id='rightContent'><div class='section'><h2>Change Selection</h2><p><span><select onchange="exploreEconomy(this, 'ExploreTopics/TradingAcrossBorders/Details.aspx');">
+	<option value="0">select an economy</option>
+	<option value="2">Afghanistan</option>
+	<option value="3">Albania</option>
+	<option value="4">Algeria</option>
+	<option value="7">Angola</option>
+	<option value="8">Antigua and Barbuda</option>
+	<option value="9">Argentina</option>
+	<option value="10">Armenia</option>
+	<option value="12">Australia</option>
+	<option value="13">Austria</option>
+	<option value="14">Azerbaijan</option>
+	<option value="15">Bahamas, the</option>
+	<option value="16">Bahrain</option>
+	<option value="17">Bangladesh</option>
+	<option value="19">Belarus</option>
+	<option value="20">Belgium</option>
+	<option value="21">Belize</option>
+	<option value="22">Benin</option>
+	<option value="24">Bhutan</option>
+	<option value="25">Bolivia</option>
+	<option value="26">Bosnia and Herzegovina</option>
+	<option value="27">Botswana</option>
+	<option value="28">Brazil</option>
+	<option value="29">Brunei Darussalam</option>
+	<option value="30">Bulgaria</option>
+	<option value="31">Burkina Faso</option>
+	<option value="32">Burundi</option>
+	<option value="33">Cambodia</option>
+	<option value="34">Cameroon</option>
+	<option value="35">Canada</option>
+	<option value="36">Cape Verde</option>
+	<option value="38">Central African Republic</option>
+	<option value="39">Chad</option>
+	<option value="41">Chile</option>
+	<option value="42">China</option>
+	<option value="46">Colombia</option>
+	<option value="47">Comoros</option>
+	<option value="48">Congo, Dem. Rep.</option>
+	<option value="49">Congo, Rep.</option>
+	<option value="50">Costa Rica</option>
+	<option value="51">C&#244;te d'Ivoire</option>
+	<option value="52">Croatia</option>
+	<option value="54">Cyprus</option>
+	<option value="55">Czech Republic</option>
+	<option value="56">Denmark</option>
+	<option value="57">Djibouti</option>
+	<option value="58">Dominica</option>
+	<option value="59">Dominican Republic</option>
+	<option value="60">Ecuador</option>
+	<option value="61">Egypt, Arab Rep.</option>
+	<option value="62">El Salvador</option>
+	<option value="63">Equatorial Guinea</option>
+	<option value="64">Eritrea</option>
+	<option value="65">Estonia</option>
+	<option value="66">Ethiopia</option>
+	<option value="68">Fiji</option>
+	<option value="69">Finland</option>
+	<option value="70">France</option>
+	<option value="72">Gabon</option>
+	<option value="73">Gambia, the</option>
+	<option value="74">Georgia</option>
+	<option value="75">Germany</option>
+	<option value="76">Ghana</option>
+	<option value="77">Greece</option>
+	<option value="79">Grenada</option>
+	<option value="81">Guatemala</option>
+	<option value="82">Guinea</option>
+	<option value="83">Guinea-Bissau</option>
+	<option value="84">Guyana</option>
+	<option value="85">Haiti</option>
+	<option value="86">Honduras</option>
+	<option value="43">Hong Kong, China</option>
+	<option value="87">Hungary</option>
+	<option value="88">Iceland</option>
+	<option value="89">India</option>
+	<option value="90">Indonesia</option>
+	<option value="91">Iran, Islamic Rep.</option>
+	<option value="92">Iraq</option>
+	<option value="93">Ireland</option>
+	<option value="95">Israel</option>
+	<option value="96">Italy</option>
+	<option value="97">Jamaica</option>
+	<option value="98">Japan</option>
+	<option value="99">Jordan</option>
+	<option value="100">Kazakhstan</option>
+	<option value="101">Kenya</option>
+	<option value="102">Kiribati</option>
+	<option value="104">Korea, Rep.</option>
+	<option value="375">Kosovo</option>
+	<option value="105">Kuwait</option>
+	<option value="106">Kyrgyz Republic</option>
+	<option value="107">Lao PDR</option>
+	<option value="108">Latvia</option>
+	<option value="109">Lebanon</option>
+	<option value="110">Lesotho</option>
+	<option value="111">Liberia</option>
+	<option value="114">Lithuania</option>
+	<option value="115">Luxembourg</option>
+	<option value="116">Macedonia, FYR</option>
+	<option value="117">Madagascar</option>
+	<option selected="selected" value="118">Malawi</option>
+	<option value="119">Malaysia</option>
+	<option value="120">Maldives</option>
+	<option value="121">Mali</option>
+	<option value="123">Marshall Islands</option>
+	<option value="124">Mauritania</option>
+	<option value="125">Mauritius</option>
+	<option value="127">Mexico</option>
+	<option value="128">Micronesia, Fed. Sts.</option>
+	<option value="129">Moldova</option>
+	<option value="131">Mongolia</option>
+	<option value="210">Montenegro</option>
+	<option value="132">Morocco</option>
+	<option value="133">Mozambique</option>
+	<option value="135">Namibia</option>
+	<option value="136">Nepal</option>
+	<option value="137">Netherlands</option>
+	<option value="140">New Zealand</option>
+	<option value="141">Nicaragua</option>
+	<option value="142">Niger</option>
+	<option value="143">Nigeria</option>
+	<option value="145">Norway</option>
+	<option value="146">Oman</option>
+	<option value="147">Pakistan</option>
+	<option value="148">Palau</option>
+	<option value="149">Panama</option>
+	<option value="150">Papua New Guinea</option>
+	<option value="151">Paraguay</option>
+	<option value="152">Peru</option>
+	<option value="153">Philippines</option>
+	<option value="154">Poland</option>
+	<option value="155">Portugal</option>
+	<option value="156">Puerto Rico</option>
+	<option value="157">Qatar</option>
+	<option value="158">Romania</option>
+	<option value="159">Russian Federation</option>
+	<option value="160">Rwanda</option>
+	<option value="161">Samoa</option>
+	<option value="162">S&#227;o Tom&#233; and Principe</option>
+	<option value="163">Saudi Arabia</option>
+	<option value="164">Senegal</option>
+	<option value="206">Serbia</option>
+	<option value="165">Seychelles</option>
+	<option value="166">Sierra Leone</option>
+	<option value="167">Singapore</option>
+	<option value="168">Slovak Republic</option>
+	<option value="169">Slovenia</option>
+	<option value="170">Solomon Islands</option>
+	<option value="172">South Africa</option>
+	<option value="173">Spain</option>
+	<option value="174">Sri Lanka</option>
+	<option value="175">St. Kitts and Nevis</option>
+	<option value="176">St. Lucia</option>
+	<option value="177">St. Vincent and the Grenadines</option>
+	<option value="178">Sudan</option>
+	<option value="179">Suriname</option>
+	<option value="180">Swaziland</option>
+	<option value="181">Sweden</option>
+	<option value="182">Switzerland</option>
+	<option value="183">Syrian Arab Republic</option>
+	<option value="45">Taiwan, China</option>
+	<option value="184">Tajikistan</option>
+	<option value="185">Tanzania</option>
+	<option value="186">Thailand</option>
+	<option value="209">Timor-Leste</option>
+	<option value="187">Togo</option>
+	<option value="188">Tonga</option>
+	<option value="189">Trinidad and Tobago</option>
+	<option value="190">Tunisia</option>
+	<option value="191">Turkey</option>
+	<option value="193">Uganda</option>
+	<option value="194">Ukraine</option>
+	<option value="195">United Arab Emirates</option>
+	<option value="196">United Kingdom</option>
+	<option value="197">United States</option>
+	<option value="198">Uruguay</option>
+	<option value="199">Uzbekistan</option>
+	<option value="200">Vanuatu</option>
+	<option value="201">Venezuela, R.B.</option>
+	<option value="202">Vietnam</option>
+	<option value="204">West Bank and Gaza</option>
+	<option value="205">Yemen, Rep.</option>
+	<option value="207">Zambia</option>
+	<option value="208">Zimbabwe</option>
+
+</select></span></p></div></div><div id='data'><div class='content'><div><table class='publicationTable' cellspacing=0 cellpadding = 0><tr><th class='left'>&nbsp;Nature of Export Procedures</th><th class='groupContent2 left'>Duration (days)</th><th class='groupContent2'>US$ Cost</th></tr><tbody><tr class='groupContent'><td class='indent1'>Documents preparation</td><td class='right'>25</td><td class='right'>323</td></tr><tr class='groupContent'><td class='indent1'>Customs clearance and technical control</td><td class='right'>2</td><td class='right'>150</td></tr><tr class='groupContent'><td class='indent1'>Ports and terminal handling</td><td class='right'>4</td><td class='right'>240</td></tr><tr class='groupContent'><td class='indent1'>Inland transportation and handling</td><td class='right'>10</td><td class='right'>1000</td></tr><tr class='groupFooter'><td class='indent1'>Totals:</td><td class='groupContent2 right'>41</td><td class='groupContent2 right'>1713</td></tr></tbody></table></div><div class='rightTable'><table class='publicationTable' cellspacing=0 cellpadding=0><tr><th class='left'>&nbsp;Nature of Import Procedures</th><th class='groupContent2 left'>Duration (days)</th><th class='groupContent2'>US$ Cost</th></tr><tbody><tr class='groupContent'><td class='indent1'>Documents preparation</td><td class='groupContent2 right'>25</td><td class='groupContent2 right'>280</td></tr><tr class='groupContent'><td class='indent1'>Customs clearance and technical control</td><td class='groupContent2 right'>3</td><td class='groupContent2 right'>150</td></tr><tr class='groupContent'><td class='indent1'>Ports and terminal handling</td><td class='groupContent2 right'>9</td><td class='groupContent2 right'>240</td></tr><tr class='groupContent'><td class='indent1'>Inland transportation and handling</td><td class='groupContent2 right'>14</td><td class='groupContent2 right'>1900</td></tr><tr class='groupFooter'><td class='indent1'>Totals:</td><td class='groupContent2 right'>51</td><td class='groupContent2 right'>2570</td></tr></tbody></table></div></div><table class='publicationTable exportImport' cellspacing=0 cellpadding=0><tr><th class='left'>&nbsp;Export documents</th><th class='left'>&nbsp;Import documents</th></tr><tbody><tr class='groupContent'><td class='indent1'>Terminal handling receipts</td><td class='indent1'>Transit document: Report order</td></tr><tr class='groupContent'><td class='indent1'>Transit document: COMESA certificate</td><td class='indent1'>Transit document: Statement of transit</td></tr><tr class='groupContent'><td class='indent1'>Transit document: Statement of transit</td><td class='indent1'>Certificate of origin</td></tr><tr class='groupContent'><td class='indent1'>Certificate of origin</td><td class='indent1'>Commercial invoice</td></tr><tr class='groupContent'><td class='indent1'>Commercial invoice</td><td class='indent1'>Customs import declaration</td></tr><tr class='groupContent'><td class='indent1'>Customs export declaration</td><td class='indent1'>Import license</td></tr><tr class='groupContent'><td class='indent1'>Export license</td><td class='indent1'>Packing list</td></tr><tr class='groupContent'><td class='indent1'>Packing list</td><td class='indent1'>Transit document: COMESA certificate</td></tr><tr class='groupContent'><td class='indent1'>Report order (transit document)</td><td class='indent1'>Bill of lading</td></tr><tr class='groupContent'><td class='indent1'>Bill of lading</td><td class='indent1'>Cargo release order</td></tr><tr class='groupContent'><td class='indent1'>Cargo release order</td><td>&nbsp;</td></tr></tbody></table><br /><div class='section'> <br/></div></div> 
+    </div>
+ 
+    
+    
+    <!-- Footer -->
+<div id="ctl00_footerMain">
+    <div id='footer'>        
+        <div id='worldbanklogo'><a href= '/web/20100710033417/http://www.worldbank.org/'></a></div> 
+        <div id="ctl00_englishFooterText">   
+			<ul class="hNavMenu footer"><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/">Home</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/economyrankings/">Rankings</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Subnational/">Subnational Projects</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/elibrarydata/elibrary.aspx?libID=1">Gender Laws</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Reformers/">Reformers</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/LawLibrary/">Business Laws</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/MethodologySurveys/">Methodology</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Downloads/">Downloads</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/LocalPartners/">Local Partners</a></li><li key="true"><a href="/web/20100710033417/http://www.doingbusiness.org/Media/Media.aspx">Media</a></li></ul> <br />
+			&nbsp;&nbsp;&nbsp;&#169;2010 The World Bank Group, All Rights Reserved. <a href="/web/20100710033417/http://web.worldbank.org/WBSITE/EXTERNAL/0,,contentMDK:20130471~menuPK:1041850~pagePK:50016803~piPK:50016805~theSitePK:13,00.html">Terms and Conditions</a>. <a href="/web/20100710033417/http://web.worldbank.org/WBSITE/EXTERNAL/0,,contentMDK:20130472~menuPK:1041850~pagePK:50016803~piPK:50016805~theSitePK:13,00.html">Privacy Policy</a>.
+		    <div class='IFCLogo'><a href= '/web/20100710033417/http://www.ifc.org/'></a></div>
+		</div>
+		
+		
+		
+			
+    </div>
+</div>        
+</body>
+</html>
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 3:34:17 Jul 10, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:28:15 Sep 22, 2014.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

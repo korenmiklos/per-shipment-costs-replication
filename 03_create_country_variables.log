@@ -1,0 +1,461 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     Special Edition                  College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+6-user Stata network perpetual license:
+       Serial number:  501306214221
+         Licensed to:  Miklos Koren
+                       Central European University
+
+Notes:
+      1.  (-v# option or -set maxvar-) 5000 maximum variables
+      2.  Command line editing disabled
+      3.  Stata running in batch mode
+
+Note:  Your site can add messages to the introduction by editing the file
+       stata.msg in the directory where Stata is installed.
+
+. do code/03_create_country_variables.do 
+
+. /* 
+> The programs and data files replicate the descriptive statistics and the esti
+> mation results in the paper
+> 
+>         Hornok, Cec’lia and Mikl—s Koren, forthcoming. ÒPer-Shipment Costs an
+> d the Lumpiness of International Trade.Ó Review of Economics and Statistics.
+> 
+> Please cite the above paper when using these programs.
+> 
+> For your convenience, we reproduce some of the data resources here. Although 
+> all of these are widely available macroeconomic data, please check with the d
+> ata vendors whether you have the right to use them.
+> 
+> Our software and data are provided AS IS, and we assume no liability for thei
+> r use or misuse. 
+> 
+> If you have any questions about replication, please contact Mikl—s Koren at k
+> orenm@ceu.hu.
+> */
+. 
+. *** Converts the various datasets into Stata format and merges them. The outp
+> ut is data/derived/merged_importer_data.dta.
+. 
+. clear
+
+. tempfile countries country_list_wb
+
+. 
+. * country codes
+. clear
+
+. insheet using data/own/country_list.csv
+(4 vars, 183 obs)
+
+. save `country_list_wb', replace
+(note: file /tmp/St23529.000002 not found)
+file /tmp/St23529.000002 saved
+
+. * read census numerical codes
+. clear
+
+. infix census_code 1-4 str iso2 69-70 using data/census/country.txt in 6/246
+(241 observations read)
+
+. saveold data/census/country_list, replace
+file data/census/country_list.dta saved
+
+. 
+. * read unilateral vars from CEPII
+. clear
+
+. use data/cepii/geo_cepii.dta
+
+. keep iso2 iso3 country landlocked
+
+. ren country country_name
+
+. duplicates drop
+
+Duplicates in terms of all variables
+
+(13 observations deleted)
+
+. save `countries', replace
+(note: file /tmp/St23529.000001 not found)
+file /tmp/St23529.000001 saved
+
+. 
+. 
+. * read bilateral vars from CEPII
+. clear
+
+. use data/cepii/dist_cepii.dta
+
+. keep if iso_o=="USA" | iso_o=="ESP"
+(49728 observations deleted)
+
+. ren iso_o exporter
+
+. ren iso_d iso3
+
+. keep exporter iso3 comlang_off col45 distwces
+
+. merge m:1 iso3 using `countries'
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         0  (_merge==1)
+        from using                          1  (_merge==2)
+
+    matched                               448  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. keep if !missing(exporter)
+(1 observation deleted)
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. merge m:1 iso2 using data/census/country_list
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            35
+        from master                        12  (_merge==1)
+        from using                         23  (_merge==2)
+
+    matched                               436  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. keep if !missing(iso3) & !missing(exporter)
+(23 observations deleted)
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. * island dummy
+. clear
+
+. insheet using data/wikipedia/island.csv, comma case
+(4 vars, 225 obs)
+
+. merge 1:m iso2 using `countries'
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                               448  (_merge==3)
+    -----------------------------------------
+
+. drop _m country
+
+. keep if !missing(iso3) & !missing(exporter)
+(1 observation deleted)
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. 
+. * GDP
+. use data/worldbank/ny.gdp.mktp.cd.dta, clear
+
+. ren ny_gdp gdp
+
+. ren countrycode iso3
+
+. replace iso3 = "ZAR" if iso3=="COD" /* different coding for Congo-Kinshasa, R
+> omania, Timor-Leste */
+(1 real change made)
+
+. replace iso3 = "ROM" if iso3=="ROU"
+(1 real change made)
+
+. replace iso3 = "TMP" if iso3=="TLS"
+(1 real change made)
+
+. merge 1:m iso3 using `countries', keep(match using)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            50
+        from master                         0  (_merge==1)
+        from using                         50  (_merge==2)
+
+    matched                               398  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. 
+. * GDP per capita
+. use data/worldbank/ny.gdp.pcap.cd.dta, clear
+
+. ren ny_gdp gdppc
+
+. ren countrycode iso3
+
+. replace iso3 = "ZAR" if iso3=="COD" /* different coding for Congo-Kinshasa, R
+> omania, Timor-Leste */
+(1 real change made)
+
+. replace iso3 = "ROM" if iso3=="ROU"
+(1 real change made)
+
+. replace iso3 = "TMP" if iso3=="TLS"
+(1 real change made)
+
+. merge 1:m iso3 using `countries', keep(match using)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            50
+        from master                         0  (_merge==1)
+        from using                         50  (_merge==2)
+
+    matched                               398  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. 
+. * Doing Business indicators
+. merge m:1 iso3 using  data/worldbank/doingbusiness/trading_across_borders_200
+> 9, keepusing(*_import)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            93
+        from master                        90  (_merge==1)
+        from using                          3  (_merge==2)
+
+    matched                               358  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. * free trade agreements
+. clear
+
+. import excel using data/bergstrand/EIA2013.xlsx, firstrow sheet("Data Sheet")
+
+. keep Exporter Importer IDIM BL
+
+. ren Exporter exporter
+
+. ren Importer importer
+
+. ren IDIM bergstrand_id
+
+. 
+. keep if exporter=="USA" | exporter=="Spain"
+(37483 observations deleted)
+
+. replace exporter="ESP" if exporter=="Spain"
+(194 real changes made)
+
+. drop if BL=="NoCty"
+(2 observations deleted)
+
+. destring BL, replace
+BL has all characters numeric; replaced as byte
+
+. ren BL eia
+
+. 
+. * correspondence to iso codes
+. merge m:m bergstrand_id using `country_list_wb', keepusing(iso3)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            44
+        from master                        38  (_merge==1)
+        from using                          6  (_merge==2)
+
+    matched                               348  (_merge==3)
+    -----------------------------------------
+
+. drop _m importer 
+
+. drop if missing(exporter,iso3)
+(44 observations deleted)
+
+. 
+. * define FTA dummy
+. gen byte fta = (eia>2)
+
+. merge 1:1 exporter iso3 using `countries'
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           103
+        from master                         0  (_merge==1)
+        from using                        103  (_merge==2)
+
+    matched                               348  (_merge==3)
+    -----------------------------------------
+
+. drop _m eia
+
+. save `countries', replace
+file /tmp/St23529.000001 saved
+
+. 
+. 
+. * adjust fta and pta to 2009 situation (year is entry into force)
+. replace fta = 1 if exp=="USA" & iso3=="DOM"  /* USA - Dominican Republic, 200
+> 7 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="CRI"  /* USA - Costa Rica, Jan 2009 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="SLV"  /* USA - El Salvador, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="GTM"  /* USA - Guatemala, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="HND"  /* USA - Honduras, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="NIC"  /* USA - Nicaragua, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="BHR"  /* USA - Bahrain, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="MAR"  /* USA - Morocco, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="OMN"  /* USA - Oman, Jan 2009 */
+(1 real change made)
+
+. replace fta = 1 if exp=="USA" & iso3=="PER"  /* USA - Peru, Feb 2009 */
+(1 real change made)
+
+. replace fta = 1 if exp=="ESP" & iso3=="ALB"  /* EC - Albania, 2006 */
+(1 real change made)
+
+. replace fta = 1 if exp=="ESP" & iso3=="BIH"  /* EC - Bosnia and Herzegovina, 
+> 2008 */
+(1 real change made)
+
+. table fta
+
+----------------------
+      fta |      Freq.
+----------+-----------
+        0 |        288
+        1 |         60
+----------------------
+
+. 
+. 
+. * create variables
+. ren total_time_import day
+
+. gen lcost = ln(total_cost_import)
+(90 missing values generated)
+
+. gen adminday = document_time_import + customs_time_import
+(90 missing values generated)
+
+. gen transitday = port_time_import + inland_time_import
+(90 missing values generated)
+
+. gen ladmincost = ln(document_cost_import + customs_cost_import)
+(90 missing values generated)
+
+. gen ltransitcost = ln(port_cost_import +  inland_cost_import)
+(90 missing values generated)
+
+. drop *_import
+
+. 
+. foreach X of var gdp gdppc distwces {
+  2.         gen l`X' = ln(`X') 
+  3. }
+(75 missing values generated)
+(75 missing values generated)
+(13 missing values generated)
+
+. drop gdp gdppc distwces
+
+. 
+. 
+. * label variables
+. lab var exporter "Exporter USA or Spain"
+
+. lab var census_code "US Census country code"
+
+. lab var island "Importer is island"
+
+. lab var lcost "Ln monetary cost"
+
+. lab var adminday "Days to documents and customs"
+
+. lab var transitday "Days to port and transit"
+
+. lab var ladmincost "Ln monetary cost to doc and customs"
+
+. lab var ltransitcost "Ln monetary cost to port and transit"
+
+. lab var lgdp "Ln nominal GDP"
+
+. lab var lgdppc "Ln GDP per capita"
+
+. lab var ldistwces "Ln distance (pop-weight, ces)"
+
+. lab var fta "Free trade agreement"
+
+. 
+. drop if missing(exporter)
+(3 observations deleted)
+
+. 
+. compress
+  landlocked was float now byte
+  census_code was float now int
+  day was float now int
+  adminday was float now byte
+  transitday was float now byte
+  exporter was str32 now str3
+  countryname was str52 now str30
+  (28,672 bytes saved)
+
+. saveold data/derived/merged_importer_data, replace
+(note: file data/derived/merged_importer_data.dta not found)
+file data/derived/merged_importer_data.dta saved
+
+. 
+end of do-file

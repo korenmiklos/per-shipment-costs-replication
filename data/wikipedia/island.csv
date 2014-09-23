@@ -1,0 +1,226 @@
+"iso2","iso3","country","island"
+"AF","AFG","Afghanistan",0
+"AL","ALB","Albania",0
+"DZ","DZA","Algeria",0
+"AD","AND","Andorra",0
+"AO","AGO","Angola",0
+"AI","AIA","Anguilla",1
+"AG","ATG","Antigua and Barbuda",1
+"AR","ARG","Argentina",0
+"AM","ARM","Armenia",0
+"AW","ABW","Aruba",1
+"AU","AUS","Australia",0
+"AT","AUT","Austria",0
+"AZ","AZE","Azerbaijan",0
+"BS","BHS","Bahamas",1
+"BH","BHR","Bahrain",1
+"BD","BGD","Bangladesh",0
+"BB","BRB","Barbados",1
+"BY","BLR","Belarus",0
+"BE","BEL","Belgium and Luxembourg",0
+"BZ","BLZ","Belize",0
+"BJ","BEN","Benin",0
+"BM","BMU","Bermuda",1
+"BT","BTN","Bhutan",0
+"BO","BOL","Bolivia",0
+"BA","BIH","Bosnia and Herzegovina",0
+"BW","BWA","Botswana",0
+"BR","BRA","Brazil",0
+"VG","VGB","British Virgin Islands",1
+"BN","BRN","Brunei Darussalam",1
+"BG","BGR","Bulgaria",0
+"BF","BFA","Burkina Faso",0
+"MM","MMR","Burma",0
+"BI","BDI","Burundi",0
+"KH","KHM","Cambodia",0
+"CM","CMR","Cameroon",0
+"CA","CAN","Canada",0
+"CV","CPV","Cape Verde",1
+"KY","CYM","Cayman Islands",1
+"CF","CAF","Central African Republic",0
+"TD","TCD","Chad",0
+"CL","CHL","Chile",0
+"CN","CHN","China",0
+"CX","CXR","Christmas Island",1
+"CC","CCK","Cocos (Keeling) Islands",1
+"CO","COL","Colombia",0
+"KM","COM","Comoros",1
+"CG","COG","Congo",0
+"ZR","ZAR","Congo (Democratic Republic of the)",0
+"CK","COK","Cook Islands",1
+"CR","CRI","Costa Rica",0
+"CI","CIV","Côte d'Ivoire",0
+"HR","HRV","Croatia",0
+"CU","CUB","Cuba",1
+"CY","CYP","Cyprus",1
+"CZ","CZE","Czech Republic",0
+"DK","DNK","Denmark",0
+"DJ","DJI","Djibouti",0
+"DM","DMA","Dominica",1
+"DO","DOM","Dominican Republic",1
+"TP","TMP","East Timor",1
+"EC","ECU","Ecuador",0
+"EG","EGY","Egypt",0
+"SV","SLV","El Salvador",0
+"GQ","GNQ","Equatorial Guinea",0
+"ER","ERI","Eritrea",0
+"EE","EST","Estonia",0
+"ET","ETH","Ethiopia",0
+"FK","FLK","Falkland Islands",1
+"FO","FRO","Faroe Islands",1
+"FJ","FJI","Fiji",1
+"FI","FIN","Finland",0
+"FR","FRA","France",0
+"GF","GUF","French Guiana",0
+"PF","PYF","French Polynesia",1
+"TF","ATF","French Southern Antartic territories",0
+"GA","GAB","Gabon",0
+"GM","GMB","Gambia",0
+"GE","GEO","Georgia",0
+"DE","DEU","Germany",0
+"GH","GHA","Ghana",0
+"GI","GIB","Gibraltar",0
+"GR","GRC","Greece",0
+"GL","GRL","Greenland",1
+"GD","GRD","Grenada",1
+"GP","GLP","Guadeloupe",0
+"GT","GTM","Guatemala",0
+"GN","GIN","Guinea",0
+"GW","GNB","Guinea-Bissau",0
+"GY","GUY","Guyana",0
+"HT","HTI","Haiti",1
+"HN","HND","Honduras",0
+"HK","HKG","Hong Kong",0
+"HU","HUN","Hungary",0
+"IS","ISL","Iceland",1
+"IN","IND","India",0
+"ID","IDN","Indonesia",1
+"IR","IRN","Iran",0
+"IQ","IRQ","Iraq",0
+"IE","IRL","Ireland",1
+"IL","ISR","Israel",0
+"IT","ITA","Italy",0
+"JM","JAM","Jamaica",1
+"JP","JPN","Japan",1
+"JO","JOR","Jordan",0
+"KZ","KAZ","Kazakstan",0
+"KE","KEN","Kenya",0
+"KI","KIR","Kiribati",1
+"KR","KOR","Korea",0
+"KP","PRK","Korea, Dem. People's Rep. of",0
+"KW","KWT","Kuwait",0
+"KG","KGZ","Kyrgyzstan",0
+"LA","LAO","Lao People's Democratic Republic",0
+"LV","LVA","Latvia",0
+"LB","LBN","Lebanon",0
+"LS","LSO","Lesotho",0
+"LR","LBR","Liberia",0
+"LY","LBY","Libyan Arab Jamahiriya",0
+"LT","LTU","Lithuania",0
+"LU","LUX","Luxembourg",0
+"MO","MAC","Macau (Aomen)",1
+"MK","MKD","Macedonia (the former Yugoslav Rep. of)",0
+"MG","MDG","Madagascar",1
+"MW","MWI","Malawi",0
+"MY","MYS","Malaysia",0
+"MV","MDV","Maldives",1
+"ML","MLI","Mali",0
+"MT","MLT","Malta",1
+"MH","MHL","Marshall Islands",1
+"MQ","MTQ","Martinique",0
+"MR","MRT","Mauritania",0
+"MU","MUS","Mauritius",1
+"MX","MEX","Mexico",0
+"FM","FSM","Micronesia (Federated States of)",1
+"MD","MDA","Moldova, Rep.of",0
+"MN","MNG","Mongolia",0
+"MS","MSR","Montserrat",1
+"MA","MAR","Morocco",0
+"MZ","MOZ","Mozambique",0
+"NA","NAM","Namibia",0
+"NR","NRU","Nauru",1
+"NP","NPL","Nepal",0
+"AN","ANT","Netherland Antilles",0
+"NL","NLD","Netherlands",0
+"NC","NCL","New Caledonia",1
+"NZ","NZL","New Zealand",1
+"NI","NIC","Nicaragua",0
+"NE","NER","Niger",0
+"NG","NGA","Nigeria",0
+"NU","NIU","Niue",1
+"NF","NFK","Norfolk Island",1
+"MP","MNP","Northern Mariana Islands",1
+"NO","NOR","Norway",0
+"OM","OMN","Oman",0
+"PK","PAK","Pakistan",0
+"PW","PLW","Palau",1
+"PS","PAL","Palestine",0
+"PA","PAN","Panama",0
+"PG","PNG","Papua New Guinea",1
+"PY","PRY","Paraguay",0
+"PE","PER","Peru",0
+"PH","PHL","Philippines",1
+"PN","PCN","Pitcairn",1
+"PL","POL","Poland",0
+"PT","PRT","Portugal",0
+"PR","PRI","Puerto Rico",1
+"QA","QAT","Qatar",0
+"RE","REU","Reunion",0
+"RO","ROM","Romania",0
+"RU","RUS","Russian Federation",0
+"RW","RWA","Rwanda",0
+"SH","SHN","Saint Helena",1
+"KN","KNA","Saint Kitts and Nevis",1
+"LC","LCA","Saint Lucia",1
+"VC","VCT","Saint Vincent and the Grenadines",1
+"WS","WSM","Samoa",1
+"SM","SMR","San Marino",0
+"ST","STP","Sao Tome and Principe",1
+"SA","SAU","Saudi Arabia",0
+"SN","SEN","Senegal",0
+"YU","YUG","Serbia and Montenegro",0
+"SC","SYC","Seychelles",1
+"SL","SLE","Sierra Leone",0
+"SG","SGP","Singapore",1
+"SK","SVK","Slovakia",0
+"SI","SVN","Slovenia",0
+"SB","SLB","Solomon Islands",1
+"SO","SOM","Somalia",0
+"ZA","ZAF","South Africa",0
+"ES","ESP","Spain",0
+"LK","LKA","Sri Lanka",1
+"PM","SPM","St. Pierre and Miquelon",0
+"SD","SDN","Sudan",0
+"SR","SUR","Suriname",0
+"SZ","SWZ","Swaziland",0
+"SE","SWE","Sweden",0
+"CH","CHE","Switzerland",0
+"SY","SYR","Syrian Arab Republic",0
+"TW","TWN","Taiwan",1
+"TJ","TJK","Tajikistan",0
+"TZ","TZA","Tanzania, United Rep. of ",0
+"TH","THA","Thailand",0
+"TG","TGO","Togo",0
+"TK","TKL","Tokelau",1
+"TO","TON","Tonga",1
+"TT","TTO","Trinidad and Tobago",1
+"TN","TUN","Tunisia",0
+"TR","TUR","Turkey",0
+"TM","TKM","Turkmenistan",0
+"TC","TCA","Turks and Caicos Islands",1
+"TV","TUV","Tuvalu",1
+"UG","UGA","Uganda",0
+"UA","UKR","Ukraine",0
+"AE","ARE","United Arab Emirates",0
+"GB","GBR","United Kingdom",1
+"US","USA","United States of America",0
+"UY","URY","Uruguay",0
+"UZ","UZB","Uzbekistan",0
+"VU","VUT","Vanuatu",1
+"VE","VEN","Venezuela",0
+"VN","VNM","Viet Nam",0
+"WF","WLF","Wallis and Futuna",1
+"EH","ESH","Western Sahara",0
+"YE","YEM","Yemen",0
+"ZM","ZMB","Zambia",0
+"ZW","ZWE","Zimbabwe",0

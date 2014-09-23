@@ -1,0 +1,146 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     Special Edition                  College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+6-user Stata network perpetual license:
+       Serial number:  501306214221
+         Licensed to:  Miklos Koren
+                       Central European University
+
+Notes:
+      1.  (-v# option or -set maxvar-) 5000 maximum variables
+      2.  Command line editing disabled
+      3.  Stata running in batch mode
+
+Note:  Your site can add messages to the introduction by editing the file
+       stata.msg in the directory where Stata is installed.
+
+. do code/06_descriptives.do 
+
+. /* 
+> The programs and data files replicate the descriptive statistics and the esti
+> mation results in the paper
+> 
+>         Hornok, Cec’lia and Mikl—s Koren, forthcoming. ÒPer-Shipment Costs an
+> d the Lumpiness of International Trade.Ó Review of Economics and Statistics.
+> 
+> Please cite the above paper when using these programs.
+> 
+> For your convenience, we reproduce some of the data resources here. Although 
+> all of these are widely available macroeconomic data, please check with the d
+> ata vendors whether you have the right to use them.
+> 
+> Our software and data are provided AS IS, and we assume no liability for thei
+> r use or misuse. 
+> 
+> If you have any questions about replication, please contact Mikl—s Koren at k
+> orenm@ceu.hu.
+> */
+. 
+. *** Creates Table 1 in paper and correlation statistics for the Doing Busines
+> s indicators.
+. 
+. 
+. * Doing Business indicators
+. use data/worldbank/doingbusiness/trading_across_borders_2009, clear
+
+. codebook country
+
+-------------------------------------------------------------------------------
+country_name                                                        (unlabeled)
+-------------------------------------------------------------------------------
+
+                  type:  string (str30)
+
+         unique values:  182                      missing "":  0/182
+
+              examples:  "Colombia"
+                         "Hungary"
+                         "Mongolia"
+                         "Slovenia"
+
+               warning:  variable has embedded blanks
+
+. drop country year *_export
+
+. 
+. * correlations
+. foreach X in document customs port inland total {
+  2.         corr `X'_time_import `X'_cost_import
+  3. }
+(obs=182)
+
+             | d~time~t d~cost~t
+-------------+------------------
+document_t~t |   1.0000
+document_c~t |   0.4570   1.0000
+
+(obs=182)
+
+             | c~time~t c~cost~t
+-------------+------------------
+customs_ti~t |   1.0000
+customs_co~t |   0.2706   1.0000
+
+(obs=182)
+
+             | port_t~t port_c~t
+-------------+------------------
+port_time_~t |   1.0000
+port_cost_~t |   0.2611   1.0000
+
+(obs=182)
+
+             | i~time~t i~cost~t
+-------------+------------------
+inland_tim~t |   1.0000
+inland_cos~t |   0.8117   1.0000
+
+(obs=182)
+
+             | t~time~t t~cost~t
+-------------+------------------
+total_time~t |   1.0000
+total_cost~t |   0.7782   1.0000
+
+
+. 
+. ************************************************************
+. * Table 1: Time and monetary costs of four import procedures
+. ************************************************************
+. * Time cost
+. tabstat document_time_import customs_time_import port_time_import inland_time
+> _import total_time_import, statistics(mean cv) columns(statistics)
+
+    variable |      mean        cv
+-------------+--------------------
+document_t~t |  13.75824  .7750215
+customs_ti~t |  3.708791  .7503003
+port_time_~t |  4.686813  .7617647
+inland_tim~t |  4.576923  1.555523
+total_time~t |  26.72527  .7037597
+----------------------------------
+
+. * Monetary cost
+. tabstat document_cost_import customs_cost_import port_cost_import inland_cost
+> _import total_cost_import, statistics(mean cv) columns(statistics)
+
+    variable |      mean        cv
+-------------+--------------------
+document_c~t |  305.9615  .6233917
+customs_co~t |  204.2637  1.002095
+port_cost_~t |   318.467  .5416996
+inland_cos~t |  769.3681    1.0738
+total_cost~t |   1598.06  .6311686
+----------------------------------
+
+. 
+. 
+end of do-file
