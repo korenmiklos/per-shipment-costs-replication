@@ -4,7 +4,7 @@ by Cecília Hornok and Miklós Koren
 ----------------------------------
 
 This file describes the program and data files for replicating the descriptive statistics and the estimation results in the paper 
-> Hornok, Cecília and Miklós Koren. “Per-Shipment Costs and the Lumpiness of International Trade,” Review of Economics and Statistics, *forthcoming*.
+> [Hornok, Cecília and Miklós Koren. “Per-Shipment Costs and the Lumpiness of International Trade,” Review of Economics and Statistics, *forthcoming*](http://miklos.koren.hu/papers/peer_reviewed_publications/administrative_barriers_to_trade/).
 
 Please cite the above paper when using these programs.
 
