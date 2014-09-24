@@ -17,5 +17,3 @@ all: 06_descriptives.log 07_regressions.log
 	stata-se -b do $<
 07_regressions.log: code/07_regressions.do data/derived/usa_export_2009_with_gravity.dta data/derived/spain_export_2009_with_gravity.dta
 	stata-se -b do $<
-%.log: code/%.do
-	stata-se -b do $<
