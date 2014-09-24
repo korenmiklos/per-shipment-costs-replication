@@ -3,8 +3,12 @@ Replication data and programs for “Per-Shipment Costs and the Lumpiness of Int
 by Cecília Hornok and Miklós Koren
 ----------------------------------
 
-This file describes the program and data files for replicating the descriptive statistics and the estimation results in the paper “Per-Shipment Costs and the Lumpiness of International Trade” by Cecília Hornok and Miklós Koren, Review of Economics and Statistics.
+This file describes the program and data files for replicating the descriptive statistics and the estimation results in the paper 
+> Hornok, Cecília and Miklós Koren. “Per-Shipment Costs and the Lumpiness of International Trade,” Review of Economics and Statistics, *forthcoming*.
+
 Please cite the above paper when using these programs.
+
+Use the repository browser above to preview and download individual files, or [download the entire folder](https://github.com/korenmiklos/per-shipment-costs-replication/archive/v1.0.1.zip) as a single ZIP-file (over 600MB). If you have `git`, use `git clone https://github.com/korenmiklos/per-shipment-costs-replication.git`.
 
 Code
 ----
