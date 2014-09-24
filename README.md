@@ -8,14 +8,19 @@ This file describes the program and data files for replicating the descriptive s
 
 Please cite the above paper when using these programs.
 
-Use the repository browser above to preview and download individual files, or [download the entire folder](https://github.com/korenmiklos/per-shipment-costs-replication/archive/v1.0.1.zip) as a single ZIP-file (over 600MB). If you have `git`, use `git clone https://github.com/korenmiklos/per-shipment-costs-replication.git`.
+Use the repository browser above to preview and download individual files, or [download the entire folder](https://github.com/korenmiklos/per-shipment-costs-replication/archive/v1.0.1.zip) as a single ZIP-file (588MB). If you have git, use 
+```
+git clone https://github.com/korenmiklos/per-shipment-costs-replication.git
+cd per-shipment-costs-replication
+make
+```
 
 Code
 ----
-All programs are under folder `code/`. The following Stata do-files need to be run in sequence to replicate our results. The do-files have been tested on Stata 13.0 and should work across a variety of platforms with the exception of 02_dowload_data.do, which expects a Unix-like environment, such as Unix, Linux or Mac OS X. We have also included a makefile, so, in a Unix-like environment, you can just run make from the shell.
+All programs are under folder `code/`. The following Stata do-files need to be run in sequence to replicate our results. The do-files have been tested on Stata 13.0 and should work across a variety of platforms with the exception of `02_dowload_data.do`, which expects a Unix-like environment, such as Unix, Linux or Mac OS X. We have also included a makefile, so, in a Unix-like environment, you can just run `make` from the shell.
 
 - `01_install_packages.do` Installs the necessary Stata packages. As with all other .do files, this should be run from the main replication folder as `do code/01_install_packages.do`
-- `02_download_data.do` Downloads all data from the available internet resources and saves them to the folder `data/`. This script uses a Unix shell, so requires Unix, Linux or Mac OS X. If you are running Windows, check how to use zip and gzip from the command line. We have saved the output of this script in data/ for your convenience, so you can skip the downloads.
+- `02_download_data.do` Downloads all data from the available internet resources and saves them to the folder `data/`. This script uses a Unix shell, so requires Unix, Linux or Mac OS X. If you are running Windows, check how to use zip and gzip from the command line. We have saved the output of this script in `data/` for your convenience, so you can skip the downloads.
 - `03_create_country_variables.do` Converts the various datasets into Stata format and merges them. The output is `data/derived/merged_importer_data.dta`.
 - `04_read_us_trade.do` Reads data from the monthly trade statistics published by the U.S. Census Bureau, merges with importer-country variables and reports shipment-level statistics. The output is `data/derived/usa_export_2009_with_gravity.dta`.
 - `05_read_spanish_trade.do` Reads data from the shipment-level trade statistics published by the Agencia Tributaria, merges with importer-country variables and reports shipment-level statistics. The output is `data/derived/spain_export_2009_with_gravity.dta`.
