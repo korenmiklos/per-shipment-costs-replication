@@ -24,6 +24,10 @@ save `twelvemonths', replace emptyok
 
 local months jan feb mar apr may jun jul aug sep oct nov dec
 foreach month in `months' {
+	capture confirm file data/agenciatributaria/`month'.csv
+	if _rc {
+		shell gunzip data/agenciatributaria/`month'.csv.gz
+	}
 	import delimited using data/agenciatributaria/`month'.csv, clear
 	
 	keep if flow=="E" /* only export */
